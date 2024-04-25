@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -45,9 +44,10 @@ import coil.compose.AsyncImage
 import com.example.architectcoderspracticauno.R
 import com.example.architectcoderspracticauno.data.model.Wizard
 import com.example.architectcoderspracticauno.ui.common.Screen
+import com.example.architectcoderspracticauno.ui.common.getColorByHouse
 import com.example.architectcoderspracticauno.ui.theme.BackgroundApp
 import com.example.architectcoderspracticauno.ui.theme.BackgroundBars
-import com.example.architectcoderspracticauno.ui.theme.GryffindorRed
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -188,7 +188,7 @@ fun LoadImageFromInternet(wizard: Wizard) {
             .padding(5.dp)
             .clip(CircleShape)
             .border(
-                BorderStroke(3.dp, GryffindorRed),
+                BorderStroke(3.dp, getColorByHouse(wizard.house)),
                 CircleShape
             )
     )
@@ -205,7 +205,7 @@ fun LoadImageFromLocal(wizard: Wizard) {
             .padding(5.dp)
             .clip(CircleShape)
             .border(
-                BorderStroke(3.dp, GryffindorRed),
+                BorderStroke(3.dp, getColorByHouse(wizard.house)),
                 CircleShape
             )
     )
