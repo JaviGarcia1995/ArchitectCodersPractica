@@ -1,20 +1,25 @@
 package com.example.architectcoderspracticauno.ui.screens.home
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,28 +36,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.architectcoderspracticauno.R
 import com.example.architectcoderspracticauno.data.model.Wizard
 import com.example.architectcoderspracticauno.ui.common.Screen
+import com.example.architectcoderspracticauno.ui.theme.BackgroundApp
+import com.example.architectcoderspracticauno.ui.theme.BackgroundBars
+import com.example.architectcoderspracticauno.ui.theme.GryffindorRed
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    onWizardClicked: (Wizard) -> Unit,
     vm: HomeViewModel = viewModel()
 ) {
+    vm.onUiReady("gryffindor")
+
     Screen {
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-        vm.onUiReady("gryffindor")
+
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(text = "Harry Potter API") },
-                    scrollBehavior = scrollBehavior
+                    title = { Text(text = "Harry Potter API", color = Color.White) },
+
+                    scrollBehavior = scrollBehavior,
+                    colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = BackgroundBars)
                 )
             },
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -73,13 +87,17 @@ fun HomeScreen(
             }
 
             LazyVerticalGrid(
+                modifier = Modifier.background(BackgroundApp),
                 columns = GridCells.Adaptive(120.dp),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp),
-                contentPadding = padding
+                contentPadding = padding,
             ) {
                 items(state.wizards, key = { it.id }){wizard ->
-                    WizardItem(wizard)
+                    WizardItem(
+                        wizard = wizard,
+                        onWizardClicked = { onWizardClicked(wizard) }
+                    )
                 }
             }
         }
@@ -89,8 +107,7 @@ fun HomeScreen(
 @Composable
 fun HomeBottomBar() {
     BottomAppBar(
-        modifier = Modifier
-            .background(Color.Blue),
+        containerColor = BackgroundBars
     ) {
         Row (
             horizontalArrangement = Arrangement.SpaceEvenly,
@@ -140,8 +157,10 @@ fun HomeBottomBar() {
 }
 
 @Composable
-fun WizardItem(wizard: Wizard) {
-    Column {
+fun WizardItem(wizard: Wizard, onWizardClicked: () -> Unit) {
+    Column(
+        modifier = Modifier.clickable { onWizardClicked() }
+    ) {
         if (wizard.image != "")
             LoadImageFromInternet(wizard)
         else
@@ -149,9 +168,11 @@ fun WizardItem(wizard: Wizard) {
 
         Text(
             text = wizard.name,
+            color = Color.White,
             style = MaterialTheme.typography.bodySmall,
             maxLines = 1,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -161,10 +182,15 @@ fun LoadImageFromInternet(wizard: Wizard) {
     AsyncImage(
         model = wizard.image,
         contentDescription = wizard.name,
+        contentScale = ContentScale.Crop,
         modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(2 / 3f)
-            .clip(MaterialTheme.shapes.small)
+            .size(150.dp)
+            .padding(5.dp)
+            .clip(CircleShape)
+            .border(
+                BorderStroke(3.dp, GryffindorRed),
+                CircleShape
+            )
     )
 }
 
@@ -173,15 +199,14 @@ fun LoadImageFromLocal(wizard: Wizard) {
     Image(
         painter = painterResource(id = R.drawable.im_placeholder),
         contentDescription = wizard.name,
+        contentScale = ContentScale.Crop,
         modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(2 / 3f)
-            .clip(MaterialTheme.shapes.small)
+            .size(150.dp)
+            .padding(5.dp)
+            .clip(CircleShape)
+            .border(
+                BorderStroke(3.dp, GryffindorRed),
+                CircleShape
+            )
     )
-}
-
-@Preview
-@Composable
-private fun preview() {
-    HomeBottomBar()
 }
