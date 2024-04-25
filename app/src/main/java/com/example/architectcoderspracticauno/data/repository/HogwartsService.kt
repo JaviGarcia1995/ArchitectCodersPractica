@@ -7,4 +7,7 @@ import retrofit2.http.Path
 interface HogwartsService {
     @GET("characters/house/{house}")
     suspend fun getWizardsSortedByHouse(@Path("house") house: String): List<Wizard>
+
+    @GET("character/{id}")
+    suspend fun getWizardById(@Path("id") id: String): List<Wizard>
 }

@@ -7,4 +7,10 @@ class HogwartsRepository {
         HogwartsClient
             .instance
             .getWizardsSortedByHouse(house)
+
+    suspend fun getWizardById(id: String): Wizard =
+        HogwartsClient
+            .instance
+            .getWizardById(id)
+            .first()
 }
