@@ -18,7 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -186,10 +186,10 @@ fun LoadImageFromInternet(wizard: Wizard) {
         modifier = Modifier
             .size(150.dp)
             .padding(5.dp)
-            .clip(CircleShape)
+            .clip(RoundedCornerShape(16.dp))
             .border(
                 BorderStroke(3.dp, getColorByHouse(wizard.house)),
-                CircleShape
+                RoundedCornerShape(16.dp)
             )
     )
 }
@@ -203,10 +203,10 @@ fun LoadImageFromLocal(wizard: Wizard) {
         modifier = Modifier
             .size(150.dp)
             .padding(5.dp)
-            .clip(CircleShape)
+            .clip(RoundedCornerShape(16.dp))
             .border(
                 BorderStroke(3.dp, getColorByHouse(wizard.house)),
-                CircleShape
+                RoundedCornerShape(16.dp)
             )
     )
 }

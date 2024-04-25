@@ -16,5 +16,5 @@ val RavenclawBlue = Color(0x22222f5b)
 val HufflepuffYellow = Color(0xfff0c75e)
 val HufflepuffDarkYellow = Color(0xeeecb939)
 
-val BackgroundApp = Color(0xFF251A17)
-val BackgroundBars = Color(0xFF4C342F)
+val BackgroundApp = Color(0xFF271D18)
+val BackgroundBars = Color(0xFF4F3A30)
