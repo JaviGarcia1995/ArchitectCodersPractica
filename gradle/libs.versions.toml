@@ -12,6 +12,7 @@ coil = "2.6.0"
 navigationCompose = "2.7.7"
 retrofit = "2.11.0"
 kotlinxSerialization = "1.6.3"
+accompanist_systemuicontroller = "0.31.1-alpha"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,6 +41,9 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 # Kotlin serialization
 retrofit-converter-kotlinx-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+
+# Accompanist
+accompanist = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist.systemuicontroller" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
