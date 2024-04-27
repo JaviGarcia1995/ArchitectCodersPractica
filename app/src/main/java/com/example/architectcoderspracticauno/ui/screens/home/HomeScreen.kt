@@ -1,9 +1,6 @@
 package com.example.architectcoderspracticauno.ui.screens.home
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,11 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,19 +27,17 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.AsyncImage
 import com.example.architectcoderspracticauno.R
 import com.example.architectcoderspracticauno.data.model.Wizard
+import com.example.architectcoderspracticauno.ui.common.LoadImageFromInternet
+import com.example.architectcoderspracticauno.ui.common.LoadImageFromLocal
 import com.example.architectcoderspracticauno.ui.common.Screen
-import com.example.architectcoderspracticauno.ui.common.getColorByHouse
 import com.example.architectcoderspracticauno.ui.theme.BackgroundApp
 import com.example.architectcoderspracticauno.ui.theme.BackgroundBars
 
@@ -63,8 +56,12 @@ fun HomeScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(text = "Harry Potter API", color = Color.White) },
-
+                    title = {
+                        Text(
+                            text = "Harry Potter API",
+                            color = Color.White
+                        )
+                    },
                     scrollBehavior = scrollBehavior,
                     colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = BackgroundBars)
                 )
@@ -79,7 +76,8 @@ fun HomeScreen(
                 Box (
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(padding),
+                        .padding(padding)
+                        .background(BackgroundApp),
                     contentAlignment = Alignment.Center
                 ){
                     CircularProgressIndicator()
@@ -175,38 +173,4 @@ fun WizardItem(wizard: Wizard, onWizardClicked: () -> Unit) {
             textAlign = TextAlign.Center
         )
     }
-}
-
-@Composable
-fun LoadImageFromInternet(wizard: Wizard) {
-    AsyncImage(
-        model = wizard.image,
-        contentDescription = wizard.name,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .size(150.dp)
-            .padding(5.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .border(
-                BorderStroke(3.dp, getColorByHouse(wizard.house)),
-                RoundedCornerShape(16.dp)
-            )
-    )
-}
-
-@Composable
-fun LoadImageFromLocal(wizard: Wizard) {
-    Image(
-        painter = painterResource(id = R.drawable.im_placeholder),
-        contentDescription = wizard.name,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .size(150.dp)
-            .padding(5.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .border(
-                BorderStroke(3.dp, getColorByHouse(wizard.house)),
-                RoundedCornerShape(16.dp)
-            )
-    )
 }
