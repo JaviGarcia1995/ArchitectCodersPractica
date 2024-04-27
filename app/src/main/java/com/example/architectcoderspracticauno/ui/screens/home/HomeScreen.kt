@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,34 +13,27 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.architectcoderspracticauno.R
 import com.example.architectcoderspracticauno.data.model.Wizard
 import com.example.architectcoderspracticauno.ui.common.BottomNavBar
+import com.example.architectcoderspracticauno.ui.common.ChangeStatusBarColor
 import com.example.architectcoderspracticauno.ui.common.LoadImageFromInternet
 import com.example.architectcoderspracticauno.ui.common.LoadImageFromLocal
 import com.example.architectcoderspracticauno.ui.common.Screen
 import com.example.architectcoderspracticauno.ui.theme.BackgroundApp
-import com.example.architectcoderspracticauno.ui.theme.BackgroundBars
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -111,19 +103,6 @@ fun WizardItem(wizard: Wizard, onWizardClicked: () -> Unit) {
             maxLines = 1,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
-        )
-    }
-}
-
-@Composable
-fun ChangeStatusBarColor() {
-    // Change StatusBar Color with Accompanist library
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(BackgroundBars)
-
-    SideEffect {
-        systemUiController.setStatusBarColor(
-            color = BackgroundBars,
         )
     }
 }
