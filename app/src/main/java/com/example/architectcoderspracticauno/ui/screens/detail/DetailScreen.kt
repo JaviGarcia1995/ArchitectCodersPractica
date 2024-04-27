@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.architectcoderspracticauno.R
+import com.example.architectcoderspracticauno.ui.common.ChangeStatusBarColor
 import com.example.architectcoderspracticauno.ui.common.LoadImageFromInternet
 import com.example.architectcoderspracticauno.ui.common.LoadImageFromLocal
 import com.example.architectcoderspracticauno.ui.common.Screen
@@ -43,6 +44,8 @@ fun DetailScreen(
 ) {
     Screen {
         val state = vm.state
+        ChangeStatusBarColor()
+
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -144,7 +147,6 @@ fun DetailScreen(
     }
 }
 
-// Make first char uppercase and verify if text is empty
 private fun beautifyPatronus(patronus: String): String {
     return if (patronus.isNotEmpty())
         patronus.first().uppercase() + patronus.substring(1)
