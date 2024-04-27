@@ -1,6 +1,5 @@
 package com.example.architectcoderspracticauno.ui.common
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
@@ -30,7 +29,7 @@ fun Navigation() {
             arguments = listOf(navArgument("wizardId") { type = NavType.StringType})
         ){backStackEntry ->
             val wizardId = requireNotNull(backStackEntry.arguments?.getString("wizardId"))
-            Log.d("[DEBUG]", wizardId)
+
             DetailScreen(
                 // ¿Se crea un viewModel cada vez que se pulsa un detalle?
                 // ¿Y pasar solo la id?
