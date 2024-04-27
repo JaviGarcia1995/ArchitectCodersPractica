@@ -1,13 +1,11 @@
 package com.example.architectcoderspracticauno.ui.screens.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -28,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.architectcoderspracticauno.R
@@ -123,7 +120,7 @@ fun DetailScreen(
                             Spacer(modifier = Modifier.height(8.dp))
 
                             Text(
-                                text = "Patronus: ${state.wizard.patronus}",
+                                text = "Patronus: ${beautifyPatronus(state.wizard.patronus)}",
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 22.sp,
@@ -142,15 +139,15 @@ fun DetailScreen(
                         }
                     }
                 }
-                state.wizard?.let {
-
-
-                }
-
-
             }
         }
-
-    
     }
+}
+
+// Make first char uppercase and verify if text is empty
+private fun beautifyPatronus(patronus: String): String {
+    return if (patronus.isNotEmpty())
+        patronus.first().uppercase() + patronus.substring(1)
+    else
+        "-"
 }
