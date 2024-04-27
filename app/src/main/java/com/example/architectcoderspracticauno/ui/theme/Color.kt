@@ -17,3 +17,4 @@ val HufflepuffDarkYellow = Color(0xeeecb939)
 
 val BackgroundApp = Color(0xFF271D18)
 val BackgroundBars = Color(0xFF4F3A30)
+val SelectedBarItem = Color(0xFF8F6D5C)
