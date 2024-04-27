@@ -17,24 +17,24 @@ import coil.compose.AsyncImage
 import com.example.architectcoderspracticauno.R
 import com.example.architectcoderspracticauno.data.model.Wizard
 import com.example.architectcoderspracticauno.ui.theme.GryffindorRed
-import com.example.architectcoderspracticauno.ui.theme.HufflepuffYellow
+import com.example.architectcoderspracticauno.ui.theme.HufflepuffDarkYellow
 import com.example.architectcoderspracticauno.ui.theme.RavenclawBlue
 import com.example.architectcoderspracticauno.ui.theme.SlytherinGreen
 
 
 fun getColorByHouse(house: String): Color {
     return when (house){
-        "gryffindor" -> {
+        "Gryffindor" -> {
             GryffindorRed
         }
-        "slytherin" -> {
+        "Slytherin" -> {
             SlytherinGreen
         }
-        "ravenclaw" -> {
+        "Ravenclaw" -> {
             RavenclawBlue
         }
-        "hufflepuff" -> {
-            HufflepuffYellow
+        "Hufflepuff" -> {
+            HufflepuffDarkYellow
         }
         else -> {
             GryffindorRed
