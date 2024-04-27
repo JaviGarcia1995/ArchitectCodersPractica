@@ -11,9 +11,8 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 val GryffindorRed = Color(0xaaae0001)
-val SlytherinGreen = Color(0x222a623d)
-val RavenclawBlue = Color(0x22222f5b)
-val HufflepuffYellow = Color(0xfff0c75e)
+val SlytherinGreen = Color(0xFF2A623D)
+val RavenclawBlue = Color(0xFF222f5b)
 val HufflepuffDarkYellow = Color(0xeeecb939)
 
 val BackgroundApp = Color(0xFF271D18)
