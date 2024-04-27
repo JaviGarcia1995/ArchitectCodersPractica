@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -16,10 +17,12 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.architectcoderspracticauno.R
 import com.example.architectcoderspracticauno.data.model.Wizard
+import com.example.architectcoderspracticauno.ui.theme.BackgroundBars
 import com.example.architectcoderspracticauno.ui.theme.GryffindorRed
 import com.example.architectcoderspracticauno.ui.theme.HufflepuffDarkYellow
 import com.example.architectcoderspracticauno.ui.theme.RavenclawBlue
 import com.example.architectcoderspracticauno.ui.theme.SlytherinGreen
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
 fun getColorByHouse(house: String): Color {
@@ -74,4 +77,17 @@ fun LoadImageFromInternet(wizard: Wizard) {
                 RoundedCornerShape(16.dp)
             )
     )
+}
+
+@Composable
+fun ChangeStatusBarColor() {
+    // Change StatusBar Color with Accompanist library
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(BackgroundBars)
+
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = BackgroundBars,
+        )
+    }
 }
