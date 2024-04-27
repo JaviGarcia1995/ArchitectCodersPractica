@@ -15,7 +15,7 @@ class HomeViewModel: ViewModel() {
 
     private val repository = HogwartsRepository()
 
-    fun onUiReady(house: String){
+    fun loadWizardsByHouse(house: String){
         viewModelScope.launch {
             state = UiState(loading = true)
             state = UiState(loading = false, repository.getWizardsSortedByHouse(house))

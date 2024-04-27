@@ -22,9 +22,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +40,7 @@ import com.example.architectcoderspracticauno.ui.common.LoadImageFromLocal
 import com.example.architectcoderspracticauno.ui.common.Screen
 import com.example.architectcoderspracticauno.ui.theme.BackgroundApp
 import com.example.architectcoderspracticauno.ui.theme.BackgroundBars
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,27 +49,16 @@ fun HomeScreen(
     onWizardClicked: (Wizard) -> Unit,
     vm: HomeViewModel = viewModel()
 ) {
-    vm.onUiReady("gryffindor")
+    vm.loadWizardsByHouse("gryffindor")
 
     Screen {
+        changeStatusBarColor()
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
         Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = "Harry Potter API",
-                            color = Color.White
-                        )
-                    },
-                    scrollBehavior = scrollBehavior,
-                    colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = BackgroundBars)
-                )
-            },
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             contentWindowInsets = WindowInsets.safeDrawing,
-            bottomBar = ({ HomeBottomBar() })
+            bottomBar = ({ HomeBottomBar(vm) })
         ) {padding ->
             val state = vm.state
 
@@ -85,7 +75,9 @@ fun HomeScreen(
             }
 
             LazyVerticalGrid(
-                modifier = Modifier.background(BackgroundApp),
+                modifier = Modifier
+                    .background(BackgroundApp)
+                    .padding(8.dp),
                 columns = GridCells.Adaptive(120.dp),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -103,7 +95,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun HomeBottomBar() {
+fun HomeBottomBar(vm: HomeViewModel) {
     BottomAppBar(
         containerColor = BackgroundBars
     ) {
@@ -112,7 +104,7 @@ fun HomeBottomBar() {
             modifier = Modifier.fillMaxWidth()
         ){
             IconButton(
-                onClick = { /* Handle navigation icon click */ }
+                onClick = { vm.loadWizardsByHouse("gryffindor") }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_gryffindor),
@@ -121,7 +113,7 @@ fun HomeBottomBar() {
                 )
             }
             IconButton(
-                onClick = { /* Handle navigation icon click */ }
+                onClick = { vm.loadWizardsByHouse("slytherin") }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_slytherin),
@@ -131,7 +123,7 @@ fun HomeBottomBar() {
             }
 
             IconButton(
-                onClick = { /* Handle navigation icon click */ }
+                onClick = { vm.loadWizardsByHouse("ravenclaw") }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_ravenclaw),
@@ -141,7 +133,7 @@ fun HomeBottomBar() {
             }
 
             IconButton(
-                onClick = { /* Handle navigation icon click */ }
+                onClick = { vm.loadWizardsByHouse("hufflepuff") }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_hufflepuff),
@@ -171,6 +163,19 @@ fun WizardItem(wizard: Wizard, onWizardClicked: () -> Unit) {
             maxLines = 1,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+fun changeStatusBarColor() {
+    // Change StatusBar Color with Accompanist library
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(BackgroundBars)
+
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = BackgroundBars,
         )
     }
 }
