@@ -42,10 +42,6 @@ fun HomeScreen(
     onWizardClicked: (Wizard) -> Unit,
     vm: HomeViewModel = viewModel()
 ) {
-    LaunchedEffect(Unit) {
-        vm.loadWizardsByHouse("gryffindor")
-    }
-
     Screen {
         ChangeStatusBarColor()
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -55,6 +51,10 @@ fun HomeScreen(
             contentWindowInsets = WindowInsets.safeDrawing,
             bottomBar = ({ BottomNavBar(vm) })
         ) {padding ->
+            LaunchedEffect(Unit) {
+                vm.loadWizardsByHouse("gryffindor")
+            }
+
             val state = vm.state
 
             if (state.loading){
