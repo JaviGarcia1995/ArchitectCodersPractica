@@ -33,7 +33,7 @@ fun Navigation() {
             DetailScreen(
                 // ¿Se crea un viewModel cada vez que se pulsa un detalle?
                 // ¿Y pasar solo la id?
-                viewModel { DetailViewModel(wizardId) },
+                wizardId,
                 onBack = { navController.popBackStack() }
             )
         }
