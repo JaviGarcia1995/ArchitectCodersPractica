@@ -31,13 +31,9 @@ fun Navigation() {
             val wizardId = requireNotNull(backStackEntry.arguments?.getString("wizardId"))
 
             DetailScreen(
-                // ¿Se crea un viewModel cada vez que se pulsa un detalle?
-                // ¿Y pasar solo la id?
                 wizardId,
                 onBack = { navController.popBackStack() }
             )
         }
     }
 }
-
-// Parpadeos cada vez que navega, da igual de que pantalla a qué pantalla
