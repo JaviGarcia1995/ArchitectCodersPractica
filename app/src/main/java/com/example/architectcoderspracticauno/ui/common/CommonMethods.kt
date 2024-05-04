@@ -91,3 +91,7 @@ fun ChangeStatusBarColor() {
         )
     }
 }
+
+fun String.capitalize(): String {
+    return this.replaceFirstChar(Char::titlecase)
+}
