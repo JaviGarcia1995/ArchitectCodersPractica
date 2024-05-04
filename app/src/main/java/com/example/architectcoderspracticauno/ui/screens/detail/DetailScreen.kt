@@ -35,6 +35,7 @@ import com.example.architectcoderspracticauno.ui.common.ChangeStatusBarColor
 import com.example.architectcoderspracticauno.ui.common.LoadImageFromInternet
 import com.example.architectcoderspracticauno.ui.common.LoadImageFromLocal
 import com.example.architectcoderspracticauno.ui.common.Screen
+import com.example.architectcoderspracticauno.ui.common.capitalize
 import com.example.architectcoderspracticauno.ui.theme.BackgroundApp
 import com.example.architectcoderspracticauno.ui.theme.BackgroundBars
 
@@ -76,7 +77,7 @@ fun DetailScreen(
                     }
                 )
             }
-        ){padding ->
+        ){ padding ->
             if (state.loading){
                 Box (
                     modifier = Modifier
@@ -132,7 +133,7 @@ fun DetailScreen(
                             Spacer(modifier = Modifier.height(8.dp))
 
                             Text(
-                                text = "Patronus: ${beautifyPatronus(state.wizard.patronus)}",
+                                text = "Patronus: ${state.wizard.patronus.capitalize()}",
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 22.sp,
@@ -154,11 +155,4 @@ fun DetailScreen(
             }
         }
     }
-}
-
-private fun beautifyPatronus(patronus: String): String {
-    return if (patronus.isNotEmpty())
-        patronus.first().uppercase() + patronus.substring(1)
-    else
-        "-"
 }
