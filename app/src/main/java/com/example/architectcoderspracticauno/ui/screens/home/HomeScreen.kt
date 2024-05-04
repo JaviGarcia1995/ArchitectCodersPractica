@@ -50,7 +50,7 @@ fun HomeScreen(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             contentWindowInsets = WindowInsets.safeDrawing,
             bottomBar = ({ BottomNavBar(vm) })
-        ) {padding ->
+        ) { padding ->
             LaunchedEffect(Unit) {
                 vm.loadWizardsByHouse("gryffindor")
             }
@@ -90,7 +90,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun WizardItem(wizard: Wizard, onWizardClicked: () -> Unit) {
+private fun WizardItem(wizard: Wizard, onWizardClicked: () -> Unit) {
     Column(
         modifier = Modifier.clickable { onWizardClicked() }
     ) {
