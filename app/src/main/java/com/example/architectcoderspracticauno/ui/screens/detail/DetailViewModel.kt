@@ -18,7 +18,6 @@ class DetailViewModel: ViewModel() {
         private set
 
     fun loadWizardProfile(wizardId: String) {
-        Log.d("[DEBUG]",wizardId)
         viewModelScope.launch{
             state = UiState(loading = true)
             state = UiState(loading = false, wizard = repository.getWizardById(wizardId))
