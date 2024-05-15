@@ -42,20 +42,13 @@ import com.example.architectcoderspracticauno.ui.theme.BackgroundBars
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    wizardId: String,
+    vm: DetailViewModel,
     onBack: () -> Unit
 ) {
-    val vm: DetailViewModel = viewModel()
     val state = vm.state
 
-    LaunchedEffect(Unit) {
-        vm.loadWizardProfile(wizardId = wizardId)
-    }
-
     Screen {
-
         ChangeStatusBarColor()
-
         Scaffold(
             topBar = {
                 TopAppBar(

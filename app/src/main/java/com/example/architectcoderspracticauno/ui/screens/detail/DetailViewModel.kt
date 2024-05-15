@@ -11,13 +11,13 @@ import com.example.architectcoderspracticauno.data.model.Wizard
 import com.example.architectcoderspracticauno.data.repository.HogwartsRepository
 import kotlinx.coroutines.launch
 
-class DetailViewModel: ViewModel() {
+class DetailViewModel(private val wizardId: String): ViewModel() {
     private val repository = HogwartsRepository()
 
     var state by mutableStateOf(UiState())
         private set
 
-    fun loadWizardProfile(wizardId: String) {
+    init {
         viewModelScope.launch{
             state = UiState(loading = true)
             state = UiState(loading = false, wizard = repository.getWizardById(wizardId))
