@@ -3,13 +3,7 @@ package com.example.architectcoderspracticauno
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
-import com.example.architectcoderspracticauno.ui.common.Navigation
-import com.example.architectcoderspracticauno.ui.screens.home.HomeScreen
-import com.example.architectcoderspracticauno.ui.theme.ArchitectCodersPracticaUnoTheme
+import com.example.architectcoderspracticauno.ui.screens.navigation.Navigation
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
