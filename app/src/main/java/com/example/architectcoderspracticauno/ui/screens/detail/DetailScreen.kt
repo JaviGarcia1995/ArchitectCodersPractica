@@ -1,7 +1,6 @@
 package com.example.architectcoderspracticauno.ui.screens.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,7 +19,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,123 +28,127 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.architectcoderspracticauno.R
+import com.example.architectcoderspracticauno.data.model.Wizard
 import com.example.architectcoderspracticauno.ui.common.ChangeStatusBarColor
-import com.example.architectcoderspracticauno.ui.common.LoadImageFromInternet
-import com.example.architectcoderspracticauno.ui.common.LoadImageFromLocal
+import com.example.architectcoderspracticauno.ui.common.LoadImage
 import com.example.architectcoderspracticauno.ui.common.Screen
 import com.example.architectcoderspracticauno.ui.common.capitalize
 import com.example.architectcoderspracticauno.ui.theme.BackgroundApp
 import com.example.architectcoderspracticauno.ui.theme.BackgroundBars
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
     vm: DetailViewModel,
     onBack: () -> Unit
 ) {
-    val state = vm.state
+    val state by vm.state.collectAsState()
 
     Screen {
         ChangeStatusBarColor()
         Scaffold(
             topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = state.wizard?.name ?: "",
-                            color = Color.White
-                        )
-                    },
-                    colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = BackgroundBars),
-                    navigationIcon = {
-                        IconButton(onClick = onBack ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                                contentDescription = stringResource(id = R.string.back),
-                                tint = Color.White
-                            )
-                        }
-                    }
+                DetailTopBar(
+                    title = state.wizard?.name ?: "",
+                    onBack = onBack
                 )
             }
         ){ padding ->
-            if (state.loading){
-                Box (
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding)
-                        .background(BackgroundApp),
-                    contentAlignment = Alignment.Center
-                ){
-                    CircularProgressIndicator()
-                }
-            }
-
-            Column(
-                modifier = Modifier
-                    .padding(padding)
-                    .fillMaxSize()
-                    .background(BackgroundApp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
-                Row(
-                    modifier = Modifier
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    state.wizard?.let {
-                        if (state.wizard.image!="")
-                            LoadImageFromInternet(it)
-                        else
-                            LoadImageFromLocal(state.wizard)
-
-                        Spacer(modifier = Modifier.width(16.dp))
-
-                        Column (
-                        ){
-                            Text(
-                                text = state.wizard.name,
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 22.sp,
-                                color = Color.White
-                            )
-
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Text(
-                                text = "House: ${state.wizard.house}",
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 22.sp,
-                                color = Color.White
-                            )
-
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Text(
-                                text = "Patronus: ${state.wizard.patronus.capitalize()}",
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 22.sp,
-                                color = Color.White
-                            )
-
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Text(
-                                text = "Actor: ${state.wizard.actor}",
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 22.sp,
-                                color = Color.White
-                            )
-                        }
-                    }
-                }
+            state.wizard?.let {
+                DetailWizard(
+                    modifier = Modifier.padding(padding),
+                    wizard = it
+                )
             }
         }
     }
+}
+
+@Composable
+private fun DetailWizard(
+    modifier: Modifier,
+    wizard: Wizard
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(BackgroundApp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+                LoadImage(wizard)
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+            Column{
+                Text(
+                    text = wizard.name,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 22.sp,
+                    color = Color.White
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "House: ${wizard.house}",
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 22.sp,
+                    color = Color.White
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "Patronus: ${wizard.patronus.capitalize()}",
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 22.sp,
+                    color = Color.White
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "Actor: ${wizard.actor}",
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 22.sp,
+                    color = Color.White
+                )
+            }
+        }
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun DetailTopBar(
+    title: String,
+    onBack: () -> Unit
+) {
+    TopAppBar(
+        title = {
+            Text(
+                text = title,
+                color = Color.White
+            )
+        },
+        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = BackgroundBars),
+        navigationIcon = {
+            IconButton(onClick = onBack) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                    contentDescription = stringResource(id = R.string.back),
+                    tint = Color.White
+                )
+            }
+        }
+    )
 }

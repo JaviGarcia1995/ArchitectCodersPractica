@@ -4,7 +4,6 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -22,8 +20,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -34,8 +32,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.architectcoderspracticauno.data.model.Wizard
 import com.example.architectcoderspracticauno.ui.common.BottomNavBar
 import com.example.architectcoderspracticauno.ui.common.ChangeStatusBarColor
-import com.example.architectcoderspracticauno.ui.common.LoadImageFromInternet
-import com.example.architectcoderspracticauno.ui.common.LoadImageFromLocal
+import com.example.architectcoderspracticauno.ui.common.LoadImage
 import com.example.architectcoderspracticauno.ui.common.Screen
 import com.example.architectcoderspracticauno.ui.theme.BackgroundApp
 
@@ -45,7 +42,7 @@ fun HomeScreen(
     onWizardClicked: (Wizard) -> Unit,
     vm: HomeViewModel = viewModel()
 ) {
-    val showWelcomeToast by vm.showWelcomeToast
+    val showWelcomeToast by vm.showWelcomeToast.collectAsState()
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -68,19 +65,8 @@ fun HomeScreen(
                 vm.loadWizardsByHouse("gryffindor")
             }
 
-            val state = vm.state
+            val state by vm.state.collectAsState()
 
-            if (state.loading){
-                Box (
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding)
-                        .background(BackgroundApp),
-                    contentAlignment = Alignment.Center
-                ){
-                    CircularProgressIndicator()
-                }
-            }
             LazyVerticalGrid(
                 modifier = Modifier
                     .background(BackgroundApp)
@@ -107,10 +93,7 @@ private fun WizardItem(wizard: Wizard, onWizardClicked: () -> Unit) {
     Column(
         modifier = Modifier.clickable { onWizardClicked() }
     ) {
-        if (wizard.image != "")
-            LoadImageFromInternet(wizard)
-        else
-            LoadImageFromLocal(wizard)
+        LoadImage(wizard)
 
         Text(
             text = wizard.name,

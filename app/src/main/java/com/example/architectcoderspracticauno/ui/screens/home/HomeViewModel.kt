@@ -1,21 +1,20 @@
 package com.example.architectcoderspracticauno.ui.screens.home
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.architectcoderspracticauno.data.model.Wizard
 import com.example.architectcoderspracticauno.data.repository.HogwartsRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class HomeViewModel: ViewModel() {
-    var state by mutableStateOf(UiState())
-        private set
+    private val _state = MutableStateFlow(UiState())
+    val state: StateFlow<UiState> = _state.asStateFlow()
 
-    private val _showWelcomeToast = mutableStateOf(false)
-    val showWelcomeToast: State<Boolean> = _showWelcomeToast
+    private val _showWelcomeToast = MutableStateFlow(false)
+    val showWelcomeToast: StateFlow<Boolean> = _showWelcomeToast
 
     private val repository = HogwartsRepository()
 
@@ -25,14 +24,11 @@ class HomeViewModel: ViewModel() {
 
     fun loadWizardsByHouse(house: String){
         viewModelScope.launch {
-            state = UiState(loading = true)
-            state = UiState(loading = false, repository.getWizardsSortedByHouse(house))
+            _state.value = UiState(repository.getWizardsSortedByHouse(house))
         }
     }
 
     data class UiState(
-        val loading: Boolean = false,
-        val wizards: List<Wizard> = emptyList(),
-        val isWelcome: Boolean = false
+        val wizards: List<Wizard> = emptyList()
     )
 }
