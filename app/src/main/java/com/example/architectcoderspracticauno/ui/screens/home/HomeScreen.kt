@@ -49,7 +49,7 @@ fun HomeScreen(
     Screen {
         ChangeStatusBarColor()
 
-        LaunchedEffect(Unit) {
+        LaunchedEffect(showWelcomeToast) {
             if (!showWelcomeToast) {
                 Toast.makeText(context, "¡Bienvenido/a!" , Toast.LENGTH_SHORT).show()
                 vm.showWelcomeToast()
