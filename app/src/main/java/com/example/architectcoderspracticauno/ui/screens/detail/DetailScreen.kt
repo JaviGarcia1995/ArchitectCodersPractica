@@ -29,11 +29,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.architectcoderspracticauno.R
-import com.example.architectcoderspracticauno.data.model.Wizard
 import com.example.architectcoderspracticauno.ui.common.ChangeStatusBarColor
 import com.example.architectcoderspracticauno.ui.common.LoadImage
 import com.example.architectcoderspracticauno.ui.common.Screen
 import com.example.architectcoderspracticauno.ui.common.capitalize
+import com.example.architectcoderspracticauno.ui.model.WizardModel
 import com.example.architectcoderspracticauno.ui.theme.BackgroundApp
 import com.example.architectcoderspracticauno.ui.theme.BackgroundBars
 
@@ -54,10 +54,10 @@ fun DetailScreen(
                 )
             }
         ){ padding ->
-            state.wizard?.let {
+            state.wizard?.let { wizard ->
                 DetailWizard(
                     modifier = Modifier.padding(padding),
-                    wizard = it
+                    wizard = wizard
                 )
             }
         }
@@ -67,7 +67,7 @@ fun DetailScreen(
 @Composable
 private fun DetailWizard(
     modifier: Modifier,
-    wizard: Wizard
+    wizard: WizardModel
 ) {
     Column(
         modifier = modifier

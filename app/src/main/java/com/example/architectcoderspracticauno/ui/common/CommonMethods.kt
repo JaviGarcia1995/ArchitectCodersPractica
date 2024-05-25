@@ -16,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.architectcoderspracticauno.R
-import com.example.architectcoderspracticauno.data.model.Wizard
+import com.example.architectcoderspracticauno.ui.model.WizardModel
 import com.example.architectcoderspracticauno.ui.theme.BackgroundBars
 import com.example.architectcoderspracticauno.ui.theme.GryffindorRed
 import com.example.architectcoderspracticauno.ui.theme.HufflepuffDarkYellow
@@ -46,33 +46,33 @@ fun getColorByHouse(house: String): Color {
 }
 
 @Composable
-fun LoadImage(wizard: Wizard) {
-    if (wizard.image == "") {
+fun LoadImage(wizardResult: WizardModel) {
+    if (wizardResult.image == "") {
         Image(
             painter = painterResource(id = R.drawable.im_placeholder),
-            contentDescription = wizard.name,
+            contentDescription = wizardResult.name,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(150.dp)
                 .padding(5.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .border(
-                    BorderStroke(3.dp, getColorByHouse(wizard.house)),
+                    BorderStroke(3.dp, getColorByHouse(wizardResult.house)),
                     RoundedCornerShape(16.dp)
                 )
         )
     }
     else{
         AsyncImage(
-            model = wizard.image,
-            contentDescription = wizard.name,
+            model = wizardResult.image,
+            contentDescription = wizardResult.name,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(150.dp)
                 .padding(5.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .border(
-                    BorderStroke(3.dp, getColorByHouse(wizard.house)),
+                    BorderStroke(3.dp, getColorByHouse(wizardResult.house)),
                     RoundedCornerShape(16.dp)
                 )
         )

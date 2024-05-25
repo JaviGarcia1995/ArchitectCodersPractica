@@ -29,17 +29,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.architectcoderspracticauno.data.model.Wizard
 import com.example.architectcoderspracticauno.ui.common.BottomNavBar
 import com.example.architectcoderspracticauno.ui.common.ChangeStatusBarColor
 import com.example.architectcoderspracticauno.ui.common.LoadImage
 import com.example.architectcoderspracticauno.ui.common.Screen
+import com.example.architectcoderspracticauno.ui.model.WizardModel
 import com.example.architectcoderspracticauno.ui.theme.BackgroundApp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onWizardClicked: (Wizard) -> Unit,
+    onWizardClicked: (WizardModel) -> Unit,
     vm: HomeViewModel = viewModel()
 ) {
     val showWelcomeToast by vm.showWelcomeToast.collectAsState()
@@ -77,7 +77,7 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 contentPadding = padding,
             ) {
-                items(state.wizards, key = { it.id }){wizard ->
+                items(state.wizards, key = { it.id }){ wizard ->
                     WizardItem(
                         wizard = wizard,
                         onWizardClicked = { onWizardClicked(wizard) }
@@ -89,7 +89,7 @@ fun HomeScreen(
 }
 
 @Composable
-private fun WizardItem(wizard: Wizard, onWizardClicked: () -> Unit) {
+private fun WizardItem(wizard: WizardModel, onWizardClicked: () -> Unit) {
     Column(
         modifier = Modifier.clickable { onWizardClicked() }
     ) {

@@ -2,8 +2,9 @@ package com.example.architectcoderspracticauno.ui.screens.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.architectcoderspracticauno.data.model.Wizard
+import com.example.architectcoderspracticauno.data.model.toWizardModel
 import com.example.architectcoderspracticauno.data.repository.HogwartsRepository
+import com.example.architectcoderspracticauno.ui.model.WizardModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,13 +18,12 @@ class DetailViewModel(private val wizardId: String): ViewModel() {
 
     init {
         viewModelScope.launch{
-            _state.value = UiState(loading = true)
-            _state.value = UiState(loading = false, wizard = repository.getWizardById(wizardId))
+            val wizard = repository.getWizardById(wizardId).toWizardModel()
+            _state.value = UiState(wizard = wizard)
         }
     }
 
     data class UiState(
-        val loading: Boolean = false,
-        val wizard: Wizard? = null
+        val wizard: WizardModel? = null
     )
 }
