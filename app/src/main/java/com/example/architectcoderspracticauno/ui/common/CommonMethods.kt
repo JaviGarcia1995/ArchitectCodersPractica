@@ -46,33 +46,33 @@ fun getColorByHouse(house: String): Color {
 }
 
 @Composable
-fun LoadImage(wizardResult: WizardModel) {
-    if (wizardResult.image == "") {
+fun LoadImage(wizard: WizardModel) {
+    if (wizard.image.isEmpty()) {
         Image(
             painter = painterResource(id = R.drawable.im_placeholder),
-            contentDescription = wizardResult.name,
+            contentDescription = wizard.name,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(150.dp)
                 .padding(5.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .border(
-                    BorderStroke(3.dp, getColorByHouse(wizardResult.house)),
+                    BorderStroke(3.dp, getColorByHouse(wizard.house)),
                     RoundedCornerShape(16.dp)
                 )
         )
     }
     else{
         AsyncImage(
-            model = wizardResult.image,
-            contentDescription = wizardResult.name,
+            model = wizard.image,
+            contentDescription = wizard.name,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(150.dp)
                 .padding(5.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .border(
-                    BorderStroke(3.dp, getColorByHouse(wizardResult.house)),
+                    BorderStroke(3.dp, getColorByHouse(wizard.house)),
                     RoundedCornerShape(16.dp)
                 )
         )
