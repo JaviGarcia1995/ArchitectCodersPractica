@@ -46,37 +46,37 @@ fun getColorByHouse(house: String): Color {
 }
 
 @Composable
-fun LoadImageFromLocal(wizard: Wizard) {
-    Image(
-        painter = painterResource(id = R.drawable.im_placeholder),
-        contentDescription = wizard.name,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .size(150.dp)
-            .padding(5.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .border(
-                BorderStroke(3.dp, getColorByHouse(wizard.house)),
-                RoundedCornerShape(16.dp)
-            )
-    )
-}
-
-@Composable
-fun LoadImageFromInternet(wizard: Wizard) {
-    AsyncImage(
-        model = wizard.image,
-        contentDescription = wizard.name,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .size(150.dp)
-            .padding(5.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .border(
-                BorderStroke(3.dp, getColorByHouse(wizard.house)),
-                RoundedCornerShape(16.dp)
-            )
-    )
+fun LoadImage(wizard: Wizard) {
+    if (wizard.image == "") {
+        Image(
+            painter = painterResource(id = R.drawable.im_placeholder),
+            contentDescription = wizard.name,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(150.dp)
+                .padding(5.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .border(
+                    BorderStroke(3.dp, getColorByHouse(wizard.house)),
+                    RoundedCornerShape(16.dp)
+                )
+        )
+    }
+    else{
+        AsyncImage(
+            model = wizard.image,
+            contentDescription = wizard.name,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(150.dp)
+                .padding(5.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .border(
+                    BorderStroke(3.dp, getColorByHouse(wizard.house)),
+                    RoundedCornerShape(16.dp)
+                )
+        )
+    }
 }
 
 @Composable
