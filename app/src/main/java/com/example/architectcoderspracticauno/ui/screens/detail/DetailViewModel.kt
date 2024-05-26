@@ -28,7 +28,6 @@ class DetailViewModel(private val wizardId: String): ViewModel() {
         viewModelScope.launch {
             val isFavourite = !_state.value.isFavourite
             _state.value = _state.value.copy(isFavourite = isFavourite)
-            Log.d("DetailViewModel", "toggleFavourite: $isFavourite")
         }
     }
 
