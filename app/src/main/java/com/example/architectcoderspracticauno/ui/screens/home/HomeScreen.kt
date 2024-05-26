@@ -76,10 +76,6 @@ fun HomeScreen(
                 )
             }
         ) { padding ->
-            LaunchedEffect(Unit) {
-                vm.loadWizardsByHouse("gryffindor")
-            }
-
             LazyVerticalGrid(
                 modifier = Modifier
                     .background(BackgroundApp)

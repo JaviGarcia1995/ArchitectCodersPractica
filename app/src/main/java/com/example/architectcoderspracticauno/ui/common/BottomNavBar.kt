@@ -9,8 +9,8 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -34,14 +34,15 @@ private val navItems = listOf(
 
 @Composable
 fun BottomNavBar(vm: HomeViewModel) {
-    val selectedHouse = remember { mutableStateOf(navItems.first()) }
+    val state by vm.state.collectAsState()
+    val selectedHouse = navItems.find { it.label == state.selectedHouse } ?: navItems.first()
 
     BottomNavigation(
         modifier = Modifier.fillMaxWidth(),
         backgroundColor = BackgroundBars,
     ) {
         navItems.forEach { item ->
-            val isSelected = selectedHouse.value == item
+            val isSelected = selectedHouse == item
 
             BottomNavigationItem(
                 icon = {
@@ -57,7 +58,7 @@ fun BottomNavBar(vm: HomeViewModel) {
                         visible = isSelected,
                         enter = fadeIn(),
                         exit = fadeOut()
-                    ){
+                    ) {
                         Text(text = item.label, color = Color.White)
                     }
 
@@ -65,8 +66,9 @@ fun BottomNavBar(vm: HomeViewModel) {
                 selected = isSelected,
                 alwaysShowLabel = false,
                 onClick = {
-                    selectedHouse.value = item
-                    vm.loadWizardsByHouse(item.label)
+                    if (!isSelected) {
+                        vm.loadWizardsByHouse(item.label)
+                    }
                 },
                 selectedContentColor = SelectedBarItem,
                 unselectedContentColor = Color.White

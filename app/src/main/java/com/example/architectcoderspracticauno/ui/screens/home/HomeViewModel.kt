@@ -24,10 +24,7 @@ class HomeViewModel: ViewModel() {
     }
 
     init {
-        viewModelScope.launch {
-            val wizards = repository.getWizardsSortedByHouse(_state.value.selectedHouse).map { it.toWizardModel() }
-            _state.value = UiState(wizards = wizards)
-        }
+        loadWizardsByHouse("gryffindor")
     }
 
     fun loadWizardsByHouse(house: String){
