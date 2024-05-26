@@ -80,7 +80,7 @@ fun BottomNavBar(vm: HomeViewModel) {
                             Text(
                                 text = item.label,
                                 color = Color.White,
-                                fontSize = 13.sp,
+                                fontSize = 12.sp,
                             )
                         }
                     },
