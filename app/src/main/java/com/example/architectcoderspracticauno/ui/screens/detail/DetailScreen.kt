@@ -183,7 +183,7 @@ private fun DetailFloatingButton(
     ){
         Icon(
             imageVector = if (isFavourite) Icons.Outlined.Favorite else Icons.Outlined.FavoriteBorder,
-            contentDescription = "Add to favourite"
+            contentDescription = if (isFavourite) "Add to favourite" else "Remove from favourite"
         )
     }
 }
