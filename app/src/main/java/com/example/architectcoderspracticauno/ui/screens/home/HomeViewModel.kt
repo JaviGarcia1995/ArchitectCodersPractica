@@ -23,14 +23,22 @@ class HomeViewModel: ViewModel() {
         _showWelcomeToast.value = true
     }
 
-    fun loadWizardsByHouse(house: String){
+    init {
         viewModelScope.launch {
-            val wizards = repository.getWizardsSortedByHouse(house).map { it.toWizardModel() }
+            val wizards = repository.getWizardsSortedByHouse(_state.value.selectedHouse).map { it.toWizardModel() }
             _state.value = UiState(wizards = wizards)
         }
     }
 
+    fun loadWizardsByHouse(house: String){
+        viewModelScope.launch {
+            val wizards = repository.getWizardsSortedByHouse(house).map { it.toWizardModel() }
+            _state.value = UiState(wizards = wizards, selectedHouse = house)
+        }
+    }
+
     data class UiState(
-        val wizards: List<WizardModel> = emptyList()
+        val wizards: List<WizardModel> = emptyList(),
+        val selectedHouse: String = "gryffindor"
     )
 }

@@ -13,7 +13,13 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -33,8 +39,10 @@ import com.example.architectcoderspracticauno.ui.common.BottomNavBar
 import com.example.architectcoderspracticauno.ui.common.ChangeStatusBarColor
 import com.example.architectcoderspracticauno.ui.common.LoadImage
 import com.example.architectcoderspracticauno.ui.common.Screen
+import com.example.architectcoderspracticauno.ui.common.getColorByHouse
 import com.example.architectcoderspracticauno.ui.model.WizardModel
 import com.example.architectcoderspracticauno.ui.theme.BackgroundApp
+import com.example.architectcoderspracticauno.ui.theme.SelectedBarItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,6 +53,7 @@ fun HomeScreen(
     val showWelcomeToast by vm.showWelcomeToast.collectAsState()
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val state by vm.state.collectAsState()
 
     Screen {
         ChangeStatusBarColor()
@@ -59,13 +68,17 @@ fun HomeScreen(
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             contentWindowInsets = WindowInsets.safeDrawing,
-            bottomBar = ({ BottomNavBar(vm) })
+            bottomBar = ({ BottomNavBar(vm) }),
+            floatingActionButton = {
+                HomeFloatingButton(
+                    onClick = {  },
+                    house = state.selectedHouse
+                )
+            }
         ) { padding ->
             LaunchedEffect(Unit) {
                 vm.loadWizardsByHouse("gryffindor")
             }
-
-            val state by vm.state.collectAsState()
 
             LazyVerticalGrid(
                 modifier = Modifier
@@ -102,6 +115,25 @@ private fun WizardItem(wizard: WizardModel, onWizardClicked: () -> Unit) {
             maxLines = 1,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+private fun HomeFloatingButton(
+    onClick: () -> Unit,
+    house: String,
+) {
+    FloatingActionButton(
+        onClick =  onClick,
+        shape = CircleShape,
+        modifier = Modifier.padding(16.dp),
+        containerColor = SelectedBarItem,
+        contentColor = getColorByHouse(house)
+    ){
+        Icon(
+            imageVector = Icons.Outlined.Favorite,
+            contentDescription = "Show my favourites wizards"
         )
     }
 }
