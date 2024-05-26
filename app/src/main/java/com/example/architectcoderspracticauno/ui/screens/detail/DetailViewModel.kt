@@ -31,10 +31,6 @@ class DetailViewModel(private val wizardId: String): ViewModel() {
         }
     }
 
-    fun isFavourite(): Boolean {
-        return _state.value.isFavourite
-    }
-
     data class UiState(
         val wizard: WizardModel? = null,
         val isFavourite: Boolean = false

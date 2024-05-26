@@ -64,7 +64,7 @@ fun DetailScreen(
                     DetailFloatingButton(
                         onFavouriteClick = { vm.toggleFavourite() },
                         wizard = wizard,
-                        isFavourite = vm.isFavourite()
+                        isFavourite = state.isFavourite
                     )
                 }
             }
