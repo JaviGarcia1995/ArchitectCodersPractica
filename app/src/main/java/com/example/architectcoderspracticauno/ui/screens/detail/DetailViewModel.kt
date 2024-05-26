@@ -1,5 +1,6 @@
 package com.example.architectcoderspracticauno.ui.screens.detail
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.architectcoderspracticauno.data.model.toWizardModel
@@ -23,7 +24,20 @@ class DetailViewModel(private val wizardId: String): ViewModel() {
         }
     }
 
+    fun toggleFavourite() {
+        viewModelScope.launch {
+            val isFavourite = !_state.value.isFavourite
+            _state.value = _state.value.copy(isFavourite = isFavourite)
+            Log.d("DetailViewModel", "toggleFavourite: $isFavourite")
+        }
+    }
+
+    fun isFavourite(): Boolean {
+        return _state.value.isFavourite
+    }
+
     data class UiState(
-        val wizard: WizardModel? = null
+        val wizard: WizardModel? = null,
+        val isFavourite: Boolean = false
     )
 }

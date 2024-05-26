@@ -8,9 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,9 +37,11 @@ import com.example.architectcoderspracticauno.ui.common.ChangeStatusBarColor
 import com.example.architectcoderspracticauno.ui.common.LoadImage
 import com.example.architectcoderspracticauno.ui.common.Screen
 import com.example.architectcoderspracticauno.ui.common.capitalize
+import com.example.architectcoderspracticauno.ui.common.getColorByHouse
 import com.example.architectcoderspracticauno.ui.model.WizardModel
 import com.example.architectcoderspracticauno.ui.theme.BackgroundApp
 import com.example.architectcoderspracticauno.ui.theme.BackgroundBars
+import com.example.architectcoderspracticauno.ui.theme.SelectedBarItem
 
 @Composable
 fun DetailScreen(
@@ -52,6 +58,15 @@ fun DetailScreen(
                     title = state.wizard?.name ?: "",
                     onBack = onBack
                 )
+            },
+            floatingActionButton = {
+                state.wizard?.let { wizard ->
+                    DetailFloatingButton(
+                        onFavouriteClick = { vm.toggleFavourite() },
+                        wizard = wizard,
+                        isFavourite = vm.isFavourite()
+                    )
+                }
             }
         ){ padding ->
             state.wizard?.let { wizard ->
@@ -151,4 +166,24 @@ private fun DetailTopBar(
             }
         }
     )
+}
+
+@Composable
+private fun DetailFloatingButton(
+    onFavouriteClick: () -> Unit,
+    wizard: WizardModel,
+    isFavourite: Boolean
+) {
+    FloatingActionButton(
+        onClick =  onFavouriteClick,
+        shape = CircleShape,
+        modifier = Modifier.padding(16.dp),
+        containerColor = SelectedBarItem,
+        contentColor = getColorByHouse(wizard.house)
+    ){
+        Icon(
+            imageVector = if (isFavourite) Icons.Outlined.Favorite else Icons.Outlined.FavoriteBorder,
+            contentDescription = "Add to favourite"
+        )
+    }
 }
