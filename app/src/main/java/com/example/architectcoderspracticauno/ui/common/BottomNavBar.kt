@@ -3,7 +3,9 @@ package com.example.architectcoderspracticauno.ui.common
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
@@ -15,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import com.example.architectcoderspracticauno.R
 import com.example.architectcoderspracticauno.ui.screens.home.HomeViewModel
 import com.example.architectcoderspracticauno.ui.theme.BackgroundBars
@@ -45,6 +48,7 @@ fun BottomNavBar(vm: HomeViewModel) {
             val isSelected = selectedHouse == item
 
             BottomNavigationItem(
+                modifier = Modifier.padding(2.dp),
                 icon = {
                     val icon: Painter = painterResource(id = item.drawableIcon)
                     Icon(
@@ -61,7 +65,6 @@ fun BottomNavBar(vm: HomeViewModel) {
                     ) {
                         Text(text = item.label, color = Color.White)
                     }
-
                 },
                 selected = isSelected,
                 alwaysShowLabel = false,
