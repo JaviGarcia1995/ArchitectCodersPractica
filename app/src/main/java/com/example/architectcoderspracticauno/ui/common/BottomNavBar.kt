@@ -1,6 +1,8 @@
 package com.example.architectcoderspracticauno.ui.common
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
@@ -109,12 +111,18 @@ private fun HomeFloatingButton(
     onClick: () -> Unit,
     house: String,
 ) {
+    val color by animateColorAsState(
+        targetValue = getColorByHouse(house),
+        animationSpec = tween(700),
+        label = "FloatingButtonIconAnimation"
+    )
+
     FloatingActionButton(
         modifier = Modifier.padding(8.dp),
         onClick =  onClick,
         shape = CircleShape,
         containerColor = SelectedBarItem,
-        contentColor = getColorByHouse(house)
+        contentColor = color
     ){
         Icon(
             imageVector = Icons.Outlined.Favorite,
