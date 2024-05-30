@@ -14,13 +14,13 @@ class HomeViewModel: ViewModel() {
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
-    private val _showWelcomeToast = MutableStateFlow(false)
-    val showWelcomeToast: StateFlow<Boolean> = _showWelcomeToast
+    private val _showedWelcomeToast = MutableStateFlow(false)
+    val showedWelcomeToast: StateFlow<Boolean> = _showedWelcomeToast
 
     private val repository = HogwartsRepository()
 
-    fun showWelcomeToast() {
-        _showWelcomeToast.value = true
+    fun showedWelcomeToast() {
+        _showedWelcomeToast.value = true
     }
 
     init {

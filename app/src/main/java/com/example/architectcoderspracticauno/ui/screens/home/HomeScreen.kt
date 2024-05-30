@@ -42,7 +42,7 @@ fun HomeScreen(
     onWizardClicked: (WizardModel) -> Unit,
     vm: HomeViewModel = viewModel()
 ) {
-    val showWelcomeToast by vm.showWelcomeToast.collectAsState()
+    val showedWelcomeToast by vm.showedWelcomeToast.collectAsState()
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val state by vm.state.collectAsState()
@@ -50,10 +50,10 @@ fun HomeScreen(
     Screen {
         ChangeStatusBarColor()
 
-        LaunchedEffect(showWelcomeToast) {
-            if (!showWelcomeToast) {
+        LaunchedEffect(showedWelcomeToast) {
+            if (!showedWelcomeToast) {
                 Toast.makeText(context, "¡Bienvenido/a!" , Toast.LENGTH_SHORT).show()
-                vm.showWelcomeToast()
+                vm.showedWelcomeToast()
             }
         }
 
