@@ -39,8 +39,8 @@ import com.example.architectcoderspracticauno.ui.theme.BackgroundApp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onWizardClicked: (WizardModel) -> Unit,
-    vm: HomeViewModel = viewModel()
+    vm: HomeViewModel,
+    onWizardClicked: (WizardModel) -> Unit
 ) {
     val showedWelcomeToast by vm.showedWelcomeToast.collectAsState()
     val context = LocalContext.current

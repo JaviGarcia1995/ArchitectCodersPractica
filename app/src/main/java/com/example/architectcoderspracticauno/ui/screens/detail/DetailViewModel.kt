@@ -1,6 +1,5 @@
 package com.example.architectcoderspracticauno.ui.screens.detail
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.architectcoderspracticauno.data.model.toWizardModel
@@ -11,8 +10,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class DetailViewModel(private val wizardId: String): ViewModel() {
-    private val repository = HogwartsRepository()
+class DetailViewModel(
+    private val repository: HogwartsRepository,
+    private val wizardId: String
+    ): ViewModel() {
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()

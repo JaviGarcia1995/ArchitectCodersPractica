@@ -10,14 +10,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class HomeViewModel: ViewModel() {
+class HomeViewModel(
+    private val repository: HogwartsRepository
+): ViewModel() {
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
     private val _showedWelcomeToast = MutableStateFlow(false)
     val showedWelcomeToast: StateFlow<Boolean> = _showedWelcomeToast
-
-    private val repository = HogwartsRepository()
 
     fun showedWelcomeToast() {
         _showedWelcomeToast.value = true
