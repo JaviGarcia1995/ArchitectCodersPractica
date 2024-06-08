@@ -8,6 +8,7 @@ import com.example.architectcoderspracticauno.ui.model.WizardModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
@@ -20,8 +21,11 @@ class DetailViewModel(
 
     init {
         viewModelScope.launch{
-            val wizard = repository.getWizardById(wizardId).toWizardModel()
-            _state.value = UiState(wizard = wizard)
+            repository.findWizardById(wizardId)
+                .catch { error -> _state.value = UiState(error = error.message.toString()) }
+                .collect{ wizard ->
+                    _state.value = UiState(wizard = wizard)
+                }
         }
     }
 
@@ -34,6 +38,7 @@ class DetailViewModel(
 
     data class UiState(
         val wizard: WizardModel? = null,
-        val isFavourite: Boolean = false
+        val isFavourite: Boolean = false,
+        val error: String = ""
     )
 }

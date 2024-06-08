@@ -36,8 +36,8 @@ data class WandResult(
     val wood: String
 )
 
-fun WizardResult.toWizardModel(): WizardModel {
-    return WizardModel(
+fun WizardResult.toWizardModel(): WizardModel =
+    WizardModel(
         id = id,
         actor = actor,
         house = house,
@@ -50,4 +50,3 @@ fun WizardResult.toWizardModel(): WizardModel {
             wood = wand.wood
         )
     )
-}

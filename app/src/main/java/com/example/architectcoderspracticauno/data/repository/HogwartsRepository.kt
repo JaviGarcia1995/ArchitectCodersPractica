@@ -1,13 +1,29 @@
 package com.example.architectcoderspracticauno.data.repository
 
+import com.example.architectcoderspracticauno.data.dataSources.LocalWizardsDataSource
 import com.example.architectcoderspracticauno.data.dataSources.RemoteWizardsDataSource
+import com.example.architectcoderspracticauno.ui.model.WizardModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.transform
 
 class HogwartsRepository(
-    private val remoteWizardsDataSource: RemoteWizardsDataSource
+    private val remoteWizardsDataSource: RemoteWizardsDataSource,
+    private val localWizardsDataSource: LocalWizardsDataSource
 ){
-    suspend fun getWizardsSortedByHouse(house: String) =
-        remoteWizardsDataSource.getWizardsSortedByHouse(house)
+    fun fetchWizardsByHouse(house: String): Flow<List<WizardModel>> =
+        localWizardsDataSource.fetchWizardsByHouse(house).transform { localWizards ->
+            val wizards = localWizards.takeIf { it.isNotEmpty() }
+                ?: remoteWizardsDataSource.fetchWizardsSortedByHouse(house).also {
+                    localWizardsDataSource.saveWizards(it)
+                }
+            emit(wizards)
+        }
 
-    suspend fun getWizardById(id: String) =
-        remoteWizardsDataSource.getWizardById(id)
+    fun findWizardById(id: String): Flow<WizardModel?> =
+        localWizardsDataSource.findWizardById(id).transform { localWizard ->
+            val wizard = localWizard ?: remoteWizardsDataSource.getWizardById(id).also {
+                localWizardsDataSource.saveWizards(listOf(it))
+            }
+            emit(wizard)
+        }
 }

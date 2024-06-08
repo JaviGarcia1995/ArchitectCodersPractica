@@ -4,11 +4,14 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.architectcoderspracticauno.App
+import com.example.architectcoderspracticauno.data.dataSources.LocalWizardsDataSource
 import com.example.architectcoderspracticauno.data.dataSources.RemoteWizardsDataSource
 import com.example.architectcoderspracticauno.data.repository.HogwartsRepository
 import com.example.architectcoderspracticauno.ui.screens.detail.DetailScreen
@@ -20,9 +23,11 @@ import com.example.architectcoderspracticauno.ui.screens.home.HomeViewModel
 fun Navigation() {
     val navController = rememberNavController()
     val animationDuration = 800
+    val app = LocalContext.current.applicationContext as App
     val repository = remember {
         HogwartsRepository(
-            RemoteWizardsDataSource()
+            RemoteWizardsDataSource(),
+            LocalWizardsDataSource(app.db.wizardDao())
         )
     }
 
