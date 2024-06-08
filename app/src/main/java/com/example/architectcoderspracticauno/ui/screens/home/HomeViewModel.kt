@@ -2,7 +2,6 @@ package com.example.architectcoderspracticauno.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.architectcoderspracticauno.data.model.toWizardModel
 import com.example.architectcoderspracticauno.data.repository.HogwartsRepository
 import com.example.architectcoderspracticauno.ui.model.WizardModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +18,7 @@ class HomeViewModel(
     private val _showedWelcomeToast = MutableStateFlow(false)
     val showedWelcomeToast: StateFlow<Boolean> = _showedWelcomeToast
 
-    fun showedWelcomeToast() {
+    fun setWelcomeToastShown() {
         _showedWelcomeToast.value = true
     }
 

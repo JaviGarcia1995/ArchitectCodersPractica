@@ -22,13 +22,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.architectcoderspracticauno.ui.common.BottomNavBar
 import com.example.architectcoderspracticauno.ui.common.ChangeStatusBarColor
 import com.example.architectcoderspracticauno.ui.common.LoadImage
@@ -42,18 +44,20 @@ fun HomeScreen(
     vm: HomeViewModel,
     onWizardClicked: (WizardModel) -> Unit
 ) {
-    val showedWelcomeToast by vm.showedWelcomeToast.collectAsState()
     val context = LocalContext.current
+    val showedWelcomeToast by vm.showedWelcomeToast.collectAsState()
+    var localShowedWelcomeToast by rememberSaveable { mutableStateOf(false) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val state by vm.state.collectAsState()
 
     Screen {
         ChangeStatusBarColor()
 
-        LaunchedEffect(showedWelcomeToast) {
-            if (!showedWelcomeToast) {
+        LaunchedEffect(showedWelcomeToast, localShowedWelcomeToast) {
+            if (!showedWelcomeToast && !localShowedWelcomeToast) {
                 Toast.makeText(context, "¡Bienvenido/a!" , Toast.LENGTH_SHORT).show()
-                vm.showedWelcomeToast()
+                vm.setWelcomeToastShown()
+                localShowedWelcomeToast = true
             }
         }
 
