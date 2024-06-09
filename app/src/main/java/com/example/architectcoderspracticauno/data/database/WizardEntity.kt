@@ -14,7 +14,8 @@ data class WizardEntity(
     val image: String,
     val name: String,
     val patronus: String,
-    @Embedded val wand: WandEntity
+    @Embedded val wand: WandEntity,
+    val isFavorite: Boolean
 )
 
 data class WandEntity(
@@ -35,5 +36,6 @@ fun WizardEntity.toWizardModel(): WizardModel =
             core = wand.core,
             length = wand.length,
             wood = wand.wood
-        )
+        ),
+        isFavorite = isFavorite
     )

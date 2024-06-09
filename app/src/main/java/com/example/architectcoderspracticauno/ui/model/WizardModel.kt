@@ -14,6 +14,7 @@ data class WizardModel(
     val name: String,
     val patronus: String,
     val wand: WandModel,
+    val isFavorite: Boolean = false
 )
 
 @Serializable
@@ -35,5 +36,6 @@ fun WizardModel.toWizardEntity(): WizardEntity =
             core = wand.core,
             length = wand.length,
             wood = wand.wood
-        )
+        ),
+        isFavorite = isFavorite
     )
