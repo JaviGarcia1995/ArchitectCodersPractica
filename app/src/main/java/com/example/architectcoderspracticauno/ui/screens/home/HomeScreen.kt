@@ -47,17 +47,15 @@ fun HomeScreen(
     val context = LocalContext.current
     val state by vm.state.collectAsState()
     val showedWelcomeToast by vm.showedWelcomeToast.collectAsState()
-    var localShowedWelcomeToast by rememberSaveable { mutableStateOf(false) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     Screen {
         ChangeStatusBarColor()
 
-        LaunchedEffect(showedWelcomeToast, localShowedWelcomeToast) {
-            if (!showedWelcomeToast && !localShowedWelcomeToast) {
+        LaunchedEffect(showedWelcomeToast) {
+            if (!showedWelcomeToast) {
                 Toast.makeText(context, "¡Bienvenido/a!" , Toast.LENGTH_SHORT).show()
                 vm.setShowedWelcomeToast()
-                localShowedWelcomeToast = true
             }
         }
 
