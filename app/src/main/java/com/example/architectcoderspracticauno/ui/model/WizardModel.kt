@@ -14,7 +14,7 @@ data class WizardModel(
     val name: String,
     val patronus: String,
     val wand: WandModel,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean
 )
 
 @Serializable

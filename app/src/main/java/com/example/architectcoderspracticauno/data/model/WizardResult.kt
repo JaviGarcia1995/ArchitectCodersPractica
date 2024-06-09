@@ -48,5 +48,6 @@ fun WizardResult.toWizardModel(): WizardModel =
             core = wand.core,
             length = wand.length,
             wood = wand.wood
-        )
+        ),
+        isFavorite = false
     )
