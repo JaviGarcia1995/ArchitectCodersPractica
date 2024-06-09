@@ -40,7 +40,7 @@ fun Navigation() {
             exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(animationDuration)) },
         ){
             HomeScreen(
-                vm = HomeViewModel(repository),
+                vm = viewModel {HomeViewModel(repository)},
                 onWizardClicked = { wizard ->
                     navController.navigate(Detail(wizard.id))
                 })
