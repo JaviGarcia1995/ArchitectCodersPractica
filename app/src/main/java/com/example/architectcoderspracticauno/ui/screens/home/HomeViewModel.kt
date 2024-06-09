@@ -1,6 +1,5 @@
 package com.example.architectcoderspracticauno.ui.screens.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.architectcoderspracticauno.data.repository.HogwartsRepository
@@ -25,7 +24,7 @@ class HomeViewModel(
 
     private var fetchJob: Job? = null
 
-    fun setWelcomeToastShown() {
+    fun setShowedWelcomeToast() {
         _showedWelcomeToast.value = true
     }
 

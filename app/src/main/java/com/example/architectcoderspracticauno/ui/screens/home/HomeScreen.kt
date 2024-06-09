@@ -31,7 +31,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.core.widget.ContentLoadingProgressBar
 import com.example.architectcoderspracticauno.ui.common.BottomNavBar
 import com.example.architectcoderspracticauno.ui.common.ChangeStatusBarColor
 import com.example.architectcoderspracticauno.ui.common.LoadImage
@@ -46,10 +45,10 @@ fun HomeScreen(
     onWizardClicked: (WizardModel) -> Unit
 ) {
     val context = LocalContext.current
+    val state by vm.state.collectAsState()
     val showedWelcomeToast by vm.showedWelcomeToast.collectAsState()
     var localShowedWelcomeToast by rememberSaveable { mutableStateOf(false) }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val state by vm.state.collectAsState()
 
     Screen {
         ChangeStatusBarColor()
@@ -57,7 +56,7 @@ fun HomeScreen(
         LaunchedEffect(showedWelcomeToast, localShowedWelcomeToast) {
             if (!showedWelcomeToast && !localShowedWelcomeToast) {
                 Toast.makeText(context, "¡Bienvenido/a!" , Toast.LENGTH_SHORT).show()
-                vm.setWelcomeToastShown()
+                vm.setShowedWelcomeToast()
                 localShowedWelcomeToast = true
             }
         }
