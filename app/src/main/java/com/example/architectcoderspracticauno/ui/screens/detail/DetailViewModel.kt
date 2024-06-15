@@ -2,14 +2,10 @@ package com.example.architectcoderspracticauno.ui.screens.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.architectcoderspracticauno.data.model.toWizardModel
 import com.example.architectcoderspracticauno.data.repository.HogwartsRepository
 import com.example.architectcoderspracticauno.ui.model.WizardModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
