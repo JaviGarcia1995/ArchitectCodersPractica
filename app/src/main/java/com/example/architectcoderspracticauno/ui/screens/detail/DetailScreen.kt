@@ -1,5 +1,6 @@
 package com.example.architectcoderspracticauno.ui.screens.detail
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,11 +24,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -49,13 +52,20 @@ fun DetailScreen(
     onBack: () -> Unit
 ) {
     val state by vm.state.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(state.error) {
+        if (state.error.isNotEmpty()){
+            Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     Screen {
         ChangeStatusBarColor()
         Scaffold(
             topBar = {
                 DetailTopBar(
-                    title = state.wizard?.name ?: "",
+                    title = state.wizard?.name ?: "Wizard",
                     onBack = onBack
                 )
             },
@@ -64,7 +74,7 @@ fun DetailScreen(
                     DetailFloatingButton(
                         onFavouriteClick = { vm.toggleFavourite() },
                         wizard = wizard,
-                        isFavourite = state.isFavourite
+                        isFavourite = wizard.isFavorite
                     )
                 }
             }

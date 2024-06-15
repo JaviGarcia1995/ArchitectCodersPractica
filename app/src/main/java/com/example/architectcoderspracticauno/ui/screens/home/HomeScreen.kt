@@ -59,6 +59,11 @@ fun HomeScreen(
             }
         }
 
+        LaunchedEffect(state.error) {
+            if (state.error.isNotEmpty()){
+                Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+            }
+        }
 
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),

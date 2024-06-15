@@ -30,15 +30,15 @@ class DetailViewModel(
     }
 
     fun toggleFavourite() {
-        viewModelScope.launch {
-            val isFavourite = !_state.value.isFavourite
-            _state.value = _state.value.copy(isFavourite = isFavourite)
-        }
+       state.value.wizard?.let { wizard ->
+           viewModelScope.launch {
+               repository.toggleFavourite(wizard)
+           }
+       }
     }
 
     data class UiState(
         val wizard: WizardModel? = null,
-        val isFavourite: Boolean = false,
         val error: String = ""
     )
 }

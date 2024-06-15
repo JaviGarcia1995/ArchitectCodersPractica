@@ -39,8 +39,8 @@ class HomeViewModel(
             repository.fetchWizardsByHouse(house)
                 .catch { error -> _state.value = _state.value.copy(error = error.message.toString()) }
                 .collect{ wizards ->
-                _state.value = UiState(wizards = wizards, selectedHouse = house)
-            }
+                    _state.value = UiState(wizards = wizards, selectedHouse = house)
+                }
         }
     }
 

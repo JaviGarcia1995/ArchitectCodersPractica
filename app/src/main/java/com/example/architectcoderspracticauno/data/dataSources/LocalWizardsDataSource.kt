@@ -23,4 +23,9 @@ class LocalWizardsDataSource(private val wizardsDao: WizardsDao) {
               val wizardEntities = wizards.map {it.toWizardEntity()}
               wizardsDao.saveWizards(wizardEntities)
        }
+
+       suspend fun updateWizard(wizard: WizardModel) {
+              val wizardEntity = wizard.toWizardEntity()
+              wizardsDao.updateWizard(wizardEntity)
+       }
 }
