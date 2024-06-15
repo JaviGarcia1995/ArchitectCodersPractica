@@ -6,9 +6,12 @@ import com.example.architectcoderspracticauno.data.model.toWizardModel
 import com.example.architectcoderspracticauno.data.repository.HogwartsRepository
 import com.example.architectcoderspracticauno.ui.model.WizardModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class DetailViewModel(
@@ -16,18 +19,13 @@ class DetailViewModel(
     private val wizardId: String
     ): ViewModel() {
 
-    private val _state = MutableStateFlow(UiState())
-    val state: StateFlow<UiState> = _state.asStateFlow()
-
-    init {
-        viewModelScope.launch{
-            repository.findWizardById(wizardId)
-                .catch { error -> _state.value = UiState(error = error.message.toString()) }
-                .collect{ wizard ->
-                    _state.value = UiState(wizard = wizard)
-                }
-        }
-    }
+   val state: StateFlow<UiState> = repository.findWizardById(wizardId)
+        .map { UiState(wizard = it) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = UiState(error = "Error")
+        )
 
     fun toggleFavourite() {
        state.value.wizard?.let { wizard ->
