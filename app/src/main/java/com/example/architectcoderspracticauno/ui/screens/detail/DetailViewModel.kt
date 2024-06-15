@@ -20,7 +20,7 @@ class DetailViewModel(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = UiState(error = "Error")
+            initialValue = UiState()
         )
 
     fun toggleFavourite() {

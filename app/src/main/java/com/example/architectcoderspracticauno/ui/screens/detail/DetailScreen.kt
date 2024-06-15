@@ -54,11 +54,7 @@ fun DetailScreen(
     val state by vm.state.collectAsState()
     val context = LocalContext.current
 
-    LaunchedEffect(state.error) {
-        if (state.error.isNotEmpty()){
-            Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
-        }
-    }
+
 
     Screen {
         ChangeStatusBarColor()
