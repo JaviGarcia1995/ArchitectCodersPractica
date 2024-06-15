@@ -26,6 +26,6 @@ class LocalWizardsDataSource(private val wizardsDao: WizardsDao) {
 
        suspend fun updateWizard(wizard: WizardModel) {
               val wizardEntity = wizard.toWizardEntity()
-              wizardsDao.updateWizard(wizardEntity)
+              wizardsDao.updateWizard(wizardEntity.isFavorite, wizardEntity.id)
        }
 }

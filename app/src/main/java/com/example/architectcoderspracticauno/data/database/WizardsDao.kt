@@ -21,6 +21,6 @@ interface WizardsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveWizards(wizards: List<WizardEntity>)
     
-    @Update
-    suspend fun updateWizard(wizard: WizardEntity)
+    @Query("UPDATE wizards SET isFavorite = :isFavorite WHERE id = :id")
+    suspend fun updateWizard(isFavorite: Boolean, id: String)
 }
