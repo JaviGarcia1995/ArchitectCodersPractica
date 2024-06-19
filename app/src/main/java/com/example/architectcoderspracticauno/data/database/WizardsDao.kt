@@ -12,6 +12,9 @@ interface WizardsDao {
     @Query("SELECT * FROM wizards WHERE house = :house")
     fun getWizardsByHouse(house: String): Flow<List<WizardEntity>>
 
+    @Query("SELECT * FROM wizards WHERE isFavorite = 1")
+    fun getFavoriteWizards(): Flow<List<WizardEntity>>
+
     @Query("SELECT * FROM wizards WHERE id = :id")
     fun getWizardById(id: String): Flow<WizardEntity?>
 

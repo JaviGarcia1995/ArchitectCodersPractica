@@ -37,6 +37,14 @@ class HomeViewModel(
             initialValue = UiState()
         )
 
+    val favoriteWizards: StateFlow<List<WizardModel>> = repository.fetchFavoriteWizards()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
+
+
     fun loadWizardsByHouse(house: String){
         _selectedHouse.value = house
     }

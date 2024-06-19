@@ -21,6 +21,11 @@ class HogwartsRepository(
             emit(wizards)
         }
 
+    fun fetchFavoriteWizards(): Flow<List<WizardModel>> =
+        localWizardsDataSource.fetchFavoriteWizards().transform { localWizards ->
+            emit(localWizards)
+        }
+
     fun findWizardById(id: String): Flow<WizardModel?> =
         localWizardsDataSource.findWizardById(id).transform { localWizard ->
             val wizard = localWizard ?: remoteWizardsDataSource.getWizardById(id).also {

@@ -14,6 +14,11 @@ class LocalWizardsDataSource(private val wizardsDao: WizardsDao) {
                      wizardEntities.map { it.toWizardModel() }
               }
 
+       fun fetchFavoriteWizards(): Flow<List<WizardModel>> =
+              wizardsDao.getFavoriteWizards().map { wizardEntities ->
+                     wizardEntities.map { it.toWizardModel() }
+              }
+
        fun findWizardById(id: String) =
               wizardsDao
                      .getWizardById(id)

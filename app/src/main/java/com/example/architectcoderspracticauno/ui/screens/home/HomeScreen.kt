@@ -1,28 +1,45 @@
 package com.example.architectcoderspracticauno.ui.screens.home
 
 import android.widget.Toast
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
@@ -34,6 +51,8 @@ import com.example.architectcoderspracticauno.ui.common.LoadImage
 import com.example.architectcoderspracticauno.ui.common.Screen
 import com.example.architectcoderspracticauno.ui.model.WizardModel
 import com.example.architectcoderspracticauno.ui.theme.BackgroundApp
+import com.example.architectcoderspracticauno.ui.theme.BackgroundBars
+import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,8 +62,14 @@ fun HomeScreen(
 ) {
     val context = LocalContext.current
     val state by vm.state.collectAsState()
+    val favoriteWizards by vm.favoriteWizards.collectAsState()
     val showedWelcomeToast by vm.showedWelcomeToast.collectAsState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
+    // Bottom sheet state
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
+    val showSheetState = remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
 
     Screen {
         ChangeStatusBarColor()
@@ -65,13 +90,20 @@ fun HomeScreen(
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             contentWindowInsets = WindowInsets.safeDrawing,
-            bottomBar = ({ BottomNavBar(vm) }),
+            bottomBar = ({ BottomNavBar(vm, showSheetState) }),
         ) { padding ->
+            val blurRadius by animateDpAsState(
+                targetValue = if (showSheetState.value) 6.dp else 0.dp,
+                animationSpec = tween(durationMillis = 100),
+                label = "Blur radius"
+            )
+
             LazyVerticalGrid(
                 modifier = Modifier
                     .background(BackgroundApp)
                     .padding(8.dp)
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .blur(blurRadius),
                 columns = GridCells.Adaptive(120.dp),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -84,12 +116,21 @@ fun HomeScreen(
                     )
                 }
             }
+
+            FavoritesBottomSheet(
+                sheetState = sheetState,
+                bottomSheetState = showSheetState,
+                favoriteWizards = favoriteWizards
+            )
         }
     }
 }
 
 @Composable
-private fun WizardItem(wizard: WizardModel, onWizardClicked: () -> Unit) {
+private fun WizardItem(
+    wizard: WizardModel,
+    onWizardClicked: () -> Unit
+) {
     Column(
         modifier = Modifier.clickable { onWizardClicked() }
     ) {
@@ -103,5 +144,62 @@ private fun WizardItem(wizard: WizardModel, onWizardClicked: () -> Unit) {
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
         )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FavoritesBottomSheet(
+    sheetState: SheetState,
+    bottomSheetState: MutableState<Boolean>,
+    favoriteWizards: List<WizardModel>
+) {
+    if (bottomSheetState.value) {
+        ModalBottomSheet(
+            onDismissRequest = { bottomSheetState.value = false },
+            sheetState = sheetState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.8f),
+            containerColor = Color(BackgroundBars.value),
+            dragHandle = {
+                Box(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .background(Color.White, shape = RoundedCornerShape(4.dp))
+                        .width(40.dp)
+                        .height(4.dp)
+                )
+            }
+        ){
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                // Sheet content
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = "Favorite Wizards",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                LazyVerticalGrid(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    columns = GridCells.Adaptive(120.dp),
+                ) {
+                    items(favoriteWizards){ wizard ->
+                        WizardItem(
+                            wizard = wizard,
+                            onWizardClicked = { }
+                        )
+                    }
+                }
+            }
+        }
     }
 }
