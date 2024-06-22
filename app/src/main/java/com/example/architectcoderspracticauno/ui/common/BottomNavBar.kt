@@ -48,8 +48,12 @@ private val navItems = listOf(
 @Composable
 fun BottomNavBar(vm: HomeViewModel, showSheetState: MutableState<Boolean>) {
     val state by vm.state.collectAsState()
-    val selectedHouse = navItems.find { it.label == state.selectedHouse } ?: navItems.first()
-
+    val selectedHouse = when (val result = state) {
+        is Result.Success -> {
+            navItems.find { it.label == result.data.selectedHouse } ?: navItems.first()
+        }
+        else -> navItems.first()
+    }
     Row (
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -102,7 +106,7 @@ fun BottomNavBar(vm: HomeViewModel, showSheetState: MutableState<Boolean>) {
                             showSheetState.value = true
 
                         },
-                        house = state.selectedHouse
+                        house = selectedHouse.label
                     )
                 }
             }

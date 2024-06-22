@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -36,7 +37,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -48,11 +48,11 @@ import androidx.compose.ui.unit.dp
 import com.example.architectcoderspracticauno.ui.common.BottomNavBar
 import com.example.architectcoderspracticauno.ui.common.ChangeStatusBarColor
 import com.example.architectcoderspracticauno.ui.common.LoadImage
+import com.example.architectcoderspracticauno.ui.common.Result
 import com.example.architectcoderspracticauno.ui.common.Screen
 import com.example.architectcoderspracticauno.ui.model.WizardModel
 import com.example.architectcoderspracticauno.ui.theme.BackgroundApp
 import com.example.architectcoderspracticauno.ui.theme.BackgroundBars
-import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,7 +69,6 @@ fun HomeScreen(
     // Bottom sheet state
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
     val showSheetState = remember { mutableStateOf(false) }
-    val coroutineScope = rememberCoroutineScope()
 
     Screen {
         ChangeStatusBarColor()
@@ -81,46 +80,70 @@ fun HomeScreen(
             }
         }
 
-        LaunchedEffect(state.error) {
-            if (state.error.isNotEmpty()){
-                Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
-            }
-        }
-
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             contentWindowInsets = WindowInsets.safeDrawing,
             bottomBar = ({ BottomNavBar(vm, showSheetState) }),
         ) { padding ->
-            val blurRadius by animateDpAsState(
-                targetValue = if (showSheetState.value) 6.dp else 0.dp,
-                animationSpec = tween(durationMillis = 100),
-                label = "Blur radius"
-            )
 
-            LazyVerticalGrid(
-                modifier = Modifier
-                    .background(BackgroundApp)
-                    .padding(8.dp)
-                    .fillMaxSize()
-                    .blur(blurRadius),
-                columns = GridCells.Adaptive(120.dp),
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                contentPadding = padding,
-            ) {
-                items(state.wizards, key = { it.id }){ wizard ->
-                    WizardItem(
-                        wizard = wizard,
-                        onWizardClicked = { onWizardClicked(wizard) }
+            when (val currentState = state) {
+                is Result.Error -> {
+                    Toast.makeText(context, "Error. Wizards could not be loaded. Please try again later.", Toast.LENGTH_SHORT).show()
+                }
+                is Result.Success -> {
+                    WizardList(
+                        showSheetState = showSheetState,
+                        padding = padding,
+                        wizards = currentState.data.wizards,
+                        onWizardClicked = onWizardClicked
                     )
                 }
             }
 
-            FavoritesBottomSheet(
-                sheetState = sheetState,
-                bottomSheetState = showSheetState,
-                favoriteWizards = favoriteWizards
+            when (val wizards = favoriteWizards){
+                is Result.Error -> {
+                    Toast.makeText(context, "Error. Favorite Wizards could not be loaded. Please try again later.", Toast.LENGTH_SHORT).show()
+                }
+                is Result.Success -> {
+                    FavoritesBottomSheet(
+                        sheetState = sheetState,
+                        bottomSheetState = showSheetState,
+                        favoriteWizards = wizards.data
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun WizardList(
+    showSheetState: MutableState<Boolean>,
+    padding: PaddingValues,
+    wizards: List<WizardModel>,
+    onWizardClicked: (WizardModel) -> Unit
+) {
+    val blurRadius by animateDpAsState(
+        targetValue = if (showSheetState.value) 6.dp else 0.dp,
+        animationSpec = tween(durationMillis = 100),
+        label = "Blur radius"
+    )
+
+    LazyVerticalGrid(
+        modifier = Modifier
+            .background(BackgroundApp)
+            .padding(8.dp)
+            .fillMaxSize()
+            .blur(blurRadius),
+        columns = GridCells.Adaptive(120.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        contentPadding = padding,
+    ) {
+        items(wizards, key = { it.id }){ wizard ->
+            WizardItem(
+                wizard = wizard,
+                onWizardClicked = { onWizardClicked(wizard) }
             )
         }
     }
@@ -149,7 +172,7 @@ private fun WizardItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavoritesBottomSheet(
+private fun FavoritesBottomSheet(
     sheetState: SheetState,
     bottomSheetState: MutableState<Boolean>,
     favoriteWizards: List<WizardModel>

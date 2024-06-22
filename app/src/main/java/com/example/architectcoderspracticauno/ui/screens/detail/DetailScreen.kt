@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import com.example.architectcoderspracticauno.R
 import com.example.architectcoderspracticauno.ui.common.ChangeStatusBarColor
 import com.example.architectcoderspracticauno.ui.common.LoadImage
+import com.example.architectcoderspracticauno.ui.common.Result
 import com.example.architectcoderspracticauno.ui.common.Screen
 import com.example.architectcoderspracticauno.ui.common.capitalize
 import com.example.architectcoderspracticauno.ui.common.getColorByHouse
@@ -52,34 +53,56 @@ fun DetailScreen(
     onBack: () -> Unit
 ) {
     val state by vm.state.collectAsState()
-    val context = LocalContext.current
-
-
 
     Screen {
         ChangeStatusBarColor()
         Scaffold(
             topBar = {
-                DetailTopBar(
-                    title = state.wizard?.name ?: "Wizard",
-                    onBack = onBack
-                )
+                when (state) {
+                    is Result.Success -> {
+                        val data = (state as Result.Success).data
+                        DetailTopBar(
+                            title = data.wizard?.name ?: "Wizard",
+                            onBack = onBack
+                        )
+                    }
+                    is Result.Error -> {
+                        DetailTopBar(
+                            title = "Error",
+                            onBack = onBack
+                        )
+                    }
+                }
             },
             floatingActionButton = {
-                state.wizard?.let { wizard ->
-                    DetailFloatingButton(
-                        onFavouriteClick = { vm.toggleFavourite() },
-                        wizard = wizard,
-                        isFavourite = wizard.isFavorite
-                    )
+                if (state is Result.Success) {
+                    val data = (state as Result.Success).data
+                    data.wizard?.let { wizard ->
+                        DetailFloatingButton(
+                            onFavouriteClick = { vm.toggleFavourite() },
+                            wizard = wizard,
+                            isFavourite = wizard.isFavorite
+                        )
+                    }
                 }
             }
         ){ padding ->
-            state.wizard?.let { wizard ->
-                DetailWizard(
-                    modifier = Modifier.padding(padding),
-                    wizard = wizard
-                )
+            when (state) {
+                is Result.Success -> {
+                    val data = (state as Result.Success).data
+                    data.wizard?.let { wizard ->
+                        DetailWizard(
+                            modifier = Modifier.padding(padding),
+                            wizard = wizard
+                        )
+                    }
+                }
+                is Result.Error -> {
+                    val context = LocalContext.current
+                    LaunchedEffect(Unit) {
+                        Toast.makeText(context, "Error loading the wizard", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
