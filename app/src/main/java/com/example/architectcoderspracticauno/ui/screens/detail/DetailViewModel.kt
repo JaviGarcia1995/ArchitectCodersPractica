@@ -14,27 +14,31 @@ import kotlinx.coroutines.launch
 class DetailViewModel(
     private val repository: HogwartsRepository,
     private val wizardId: String
-    ): ViewModel() {
+): ViewModel() {
 
-   val state: StateFlow<Result<UiState>> = repository.findWizardById(wizardId)
-        .map { UiState(wizard = it) }
-       .map<UiState, Result<UiState>> { Result.Success(it) }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = Result.Success(UiState())
-        )
+    val state: StateFlow<Result<UiState>>
 
-   fun toggleFavourite() {
-       val currentState = state.value
-       if (currentState is Result.Success) {
-           currentState.data.wizard?.let { wizard ->
-               viewModelScope.launch {
-                   repository.toggleFavourite(wizard)
-               }
-           }
-       }
-   }
+    init {
+        state = repository.findWizardById(wizardId)
+            .map { UiState(wizard = it) }
+            .map<UiState, Result<UiState>> { Result.Success(it) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = Result.Success(UiState())
+            )
+    }
+
+    fun toggleFavourite() {
+        val currentState = state.value
+        if (currentState is Result.Success) {
+            currentState.data.wizard?.let { wizard ->
+                viewModelScope.launch {
+                    repository.toggleFavourite(wizard)
+                }
+            }
+        }
+    }
 
     data class UiState(
         val wizard: WizardModel? = null,

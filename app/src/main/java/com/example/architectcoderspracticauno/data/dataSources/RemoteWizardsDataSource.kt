@@ -1,6 +1,5 @@
 package com.example.architectcoderspracticauno.data.dataSources
 
-import com.example.architectcoderspracticauno.data.model.WizardResult
 import com.example.architectcoderspracticauno.data.model.toWizardModel
 import com.example.architectcoderspracticauno.data.repository.HogwartsClient
 import com.example.architectcoderspracticauno.ui.model.WizardModel

@@ -1,11 +1,9 @@
 package com.example.architectcoderspracticauno.data.repository
 
-import android.util.Log
 import com.example.architectcoderspracticauno.data.dataSources.LocalWizardsDataSource
 import com.example.architectcoderspracticauno.data.dataSources.RemoteWizardsDataSource
 import com.example.architectcoderspracticauno.ui.model.WizardModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.transform
 
 class HogwartsRepository(
@@ -37,6 +35,5 @@ class HogwartsRepository(
     suspend fun toggleFavourite(wizard: WizardModel) {
         val updatedWizard = wizard.copy(isFavorite = !wizard.isFavorite)
         localWizardsDataSource.updateWizard(updatedWizard)
-        Log.d("TAG", "toggleFavourite: ${updatedWizard.name} ${updatedWizard.isFavorite}")
     }
 }

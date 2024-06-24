@@ -1,6 +1,5 @@
 package com.example.architectcoderspracticauno.data.dataSources
 
-import com.example.architectcoderspracticauno.data.database.WizardEntity
 import com.example.architectcoderspracticauno.data.database.WizardsDao
 import com.example.architectcoderspracticauno.data.database.toWizardModel
 import com.example.architectcoderspracticauno.ui.model.WizardModel
