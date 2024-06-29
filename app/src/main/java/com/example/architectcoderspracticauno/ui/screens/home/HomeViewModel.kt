@@ -10,8 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-private const val DEFAULT_HOUSE = "gryffindor"
-
 class HomeViewModel: ViewModel() {
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
@@ -26,7 +24,7 @@ class HomeViewModel: ViewModel() {
     }
 
     init {
-        loadWizardsByHouse(DEFAULT_HOUSE)
+        loadWizardsByHouse("gryffindor")
     }
 
     fun loadWizardsByHouse(house: String){

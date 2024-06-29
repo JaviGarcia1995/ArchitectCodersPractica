@@ -18,6 +18,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -45,10 +46,14 @@ private val navItems = listOf(
 )
 
 @Composable
-fun BottomNavBar(vm: HomeViewModel) {
+fun BottomNavBar(vm: HomeViewModel, showSheetState: MutableState<Boolean>) {
     val state by vm.state.collectAsState()
-    val selectedHouse = navItems.find { it.label == state.selectedHouse } ?: navItems.first()
-
+    val selectedHouse = when (val result = state) {
+        is Result.Success -> {
+            navItems.find { it.label == result.data.selectedHouse } ?: navItems.first()
+        }
+        else -> navItems.first()
+    }
     Row (
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -97,8 +102,11 @@ fun BottomNavBar(vm: HomeViewModel) {
 
                 if (index == halfItemCount - 1){
                     HomeFloatingButton(
-                        onClick = { /*TODO*/ },
-                        house = state.selectedHouse
+                        onClick = {
+                            showSheetState.value = true
+
+                        },
+                        house = selectedHouse.label
                     )
                 }
             }
