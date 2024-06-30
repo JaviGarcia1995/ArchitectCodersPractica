@@ -1,7 +1,5 @@
 package com.example.architectcoderspracticauno.data.model
 
-import com.example.architectcoderspracticauno.ui.model.WandModel
-import com.example.architectcoderspracticauno.ui.model.WizardModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -35,19 +33,3 @@ data class WandResult(
     val length: Double?,
     val wood: String
 )
-
-fun WizardResult.toWizardModel(): WizardModel =
-    WizardModel(
-        id = id,
-        actor = actor,
-        house = house,
-        image = image,
-        name = name,
-        patronus = patronus,
-        wand = WandModel(
-            core = wand.core,
-            length = wand.length,
-            wood = wand.wood
-        ),
-        isFavorite = false
-    )

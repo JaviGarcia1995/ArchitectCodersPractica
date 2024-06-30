@@ -11,13 +11,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.architectcoderspracticauno.App
-import com.example.architectcoderspracticauno.data.dataSources.LocalWizardsDataSource
-import com.example.architectcoderspracticauno.data.dataSources.RemoteWizardsDataSource
-import com.example.architectcoderspracticauno.data.repository.HogwartsRepository
+import com.example.architectcoderspracticauno.framework.datasource.RoomWizardsDataSource
+import com.example.architectcoderspracticauno.framework.datasource.ServerWizardsDataSource
+import com.example.architectcoderspracticauno.framework.remote.HogwartsClient
+import com.example.architectcoderspracticauno.framework.remote.HogwartsRepository
 import com.example.architectcoderspracticauno.ui.screens.detail.DetailScreen
 import com.example.architectcoderspracticauno.ui.screens.detail.DetailViewModel
 import com.example.architectcoderspracticauno.ui.screens.home.HomeScreen
 import com.example.architectcoderspracticauno.ui.screens.home.HomeViewModel
+import com.example.architectcoderspracticauno.usecases.FetchFavoriteWizardsUseCase
+import com.example.architectcoderspracticauno.usecases.FetchWizardsByHouseUseCase
+import com.example.architectcoderspracticauno.usecases.FindWizardByIdUseCase
+import com.example.architectcoderspracticauno.usecases.ToggleFavoriteUseCase
 
 @Composable
 fun Navigation() {
@@ -26,8 +31,8 @@ fun Navigation() {
     val app = LocalContext.current.applicationContext as App
     val repository = remember {
         HogwartsRepository(
-            RemoteWizardsDataSource(),
-            LocalWizardsDataSource(app.db.wizardDao())
+            remoteWizardsDataSource = ServerWizardsDataSource(HogwartsClient.instance),
+            localWizardsDataSource = RoomWizardsDataSource(app.db.wizardDao())
         )
     }
 
@@ -40,7 +45,10 @@ fun Navigation() {
             exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(animationDuration)) },
         ){
             HomeScreen(
-                vm = viewModel {HomeViewModel(repository)},
+                vm = viewModel { HomeViewModel(
+                    FetchWizardsByHouseUseCase(repository),
+                    FetchFavoriteWizardsUseCase(repository)
+                )},
                 onWizardClicked = { wizard ->
                     navController.navigate(Detail(wizard.id))
                 })
@@ -53,8 +61,9 @@ fun Navigation() {
             DetailScreen(
                 vm = viewModel {
                     DetailViewModel(
-                        repository = repository,
-                        wizardId = detail.wizardId
+                        wizardId = detail.wizardId,
+                        FindWizardByIdUseCase(repository),
+                        ToggleFavoriteUseCase(repository),
                     )
                 },
                 onBack = { navController.popBackStack() }

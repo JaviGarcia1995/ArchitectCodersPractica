@@ -1,4 +1,4 @@
-package com.example.architectcoderspracticauno.data.repository
+package com.example.architectcoderspracticauno.framework.remote
 
 import com.example.architectcoderspracticauno.data.model.WizardResult
 import retrofit2.http.GET

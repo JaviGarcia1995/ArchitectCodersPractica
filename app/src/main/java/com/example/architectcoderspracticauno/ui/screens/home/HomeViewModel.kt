@@ -2,7 +2,8 @@ package com.example.architectcoderspracticauno.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.architectcoderspracticauno.data.repository.HogwartsRepository
+import com.example.architectcoderspracticauno.usecases.FetchFavoriteWizardsUseCase
+import com.example.architectcoderspracticauno.usecases.FetchWizardsByHouseUseCase
 import com.example.architectcoderspracticauno.ui.common.Result
 import com.example.architectcoderspracticauno.ui.common.capitalize
 import com.example.architectcoderspracticauno.ui.model.WizardModel
@@ -18,7 +19,8 @@ import kotlinx.coroutines.flow.stateIn
 private const val DEFAULT_HOUSE = "gryffindor"
 
 class HomeViewModel(
-    private val repository: HogwartsRepository
+    private val fetchWizardsByHouseUseCase: FetchWizardsByHouseUseCase,
+    private val fetchFavoriteWizardsUseCase: FetchFavoriteWizardsUseCase
 ): ViewModel() {
 
     private val _showedWelcomeToast = MutableStateFlow(false)
@@ -33,7 +35,7 @@ class HomeViewModel(
         @OptIn(ExperimentalCoroutinesApi::class)
         state = _selectedHouse
             .flatMapLatest { house ->
-                repository.fetchWizardsByHouse(house.capitalize())
+                fetchWizardsByHouseUseCase(house.capitalize())
                     .map { wizards ->
                         UiState(wizards = wizards, selectedHouse = house)
                     }
@@ -46,7 +48,7 @@ class HomeViewModel(
                 initialValue = Result.Success(UiState())
             )
 
-        favoriteWizards = repository.fetchFavoriteWizards()
+        favoriteWizards = fetchFavoriteWizardsUseCase()
             .map<List<WizardModel>, Result<List<WizardModel>>> { Result.Success(it) }
             .catch { e -> emit(Result.Error(e)) }
             .stateIn(

@@ -1,10 +1,9 @@
-package com.example.architectcoderspracticauno.data.database
+package com.example.architectcoderspracticauno.framework.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -1,4 +1,4 @@
-package com.example.architectcoderspracticauno.data.repository
+package com.example.architectcoderspracticauno.framework.remote
 
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType

@@ -2,7 +2,7 @@ package com.example.architectcoderspracticauno
 
 import android.app.Application
 import androidx.room.Room
-import com.example.architectcoderspracticauno.data.database.WizardsDatabase
+import com.example.architectcoderspracticauno.framework.database.WizardsDatabase
 
 class App: Application() {
     lateinit var db: WizardsDatabase

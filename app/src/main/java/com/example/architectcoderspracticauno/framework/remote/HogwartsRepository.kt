@@ -1,7 +1,7 @@
-package com.example.architectcoderspracticauno.data.repository
+package com.example.architectcoderspracticauno.framework.remote
 
-import com.example.architectcoderspracticauno.data.dataSources.LocalWizardsDataSource
-import com.example.architectcoderspracticauno.data.dataSources.RemoteWizardsDataSource
+import com.example.architectcoderspracticauno.data.datasource.LocalWizardsDataSource
+import com.example.architectcoderspracticauno.data.datasource.RemoteWizardsDataSource
 import com.example.architectcoderspracticauno.ui.model.WizardModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform

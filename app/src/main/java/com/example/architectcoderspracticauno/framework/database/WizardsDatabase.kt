@@ -1,4 +1,4 @@
-package com.example.architectcoderspracticauno.data.database
+package com.example.architectcoderspracticauno.framework.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
