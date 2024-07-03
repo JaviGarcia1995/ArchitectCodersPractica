@@ -52,7 +52,11 @@ android {
 }
 
 dependencies {
-
+    implementation(project(":domain:wizard"))
+    implementation(project(":framework:core"))
+    implementation(project(":framework:wizard"))
+    implementation(project(":feature:wizard:home"))
+    implementation(project(":feature:wizard:detail"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -66,7 +70,6 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.kotlinx.serialization)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.accompanist)
     implementation(libs.androidx.material)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)

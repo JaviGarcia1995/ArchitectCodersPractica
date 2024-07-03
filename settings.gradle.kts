@@ -20,5 +20,14 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "ArchitectCoders PracticaUno"
+
 include(":app")
- 
+
+include(":domain:wizard")
+
+include(":framework:core")
+include(":framework:wizard")
+
+include(":feature:common")
+include(":feature:wizard:home")
+include(":feature:wizard:detail")

@@ -2,17 +2,17 @@ package com.example.architectcoderspracticauno
 
 import android.app.Application
 import androidx.room.Room
-import com.example.architectcoderspracticauno.framework.database.WizardsDatabase
+import com.example.architectcoders.framework.core.HogwartsDatabase
 
 class App: Application() {
-    lateinit var db: WizardsDatabase
+    lateinit var db: HogwartsDatabase
         private set
 
     override fun onCreate() {
         super.onCreate()
         db = Room.databaseBuilder(
             this,
-            WizardsDatabase::class.java,
+            HogwartsDatabase::class.java,
             "wizards.db"
         ).build()
     }
