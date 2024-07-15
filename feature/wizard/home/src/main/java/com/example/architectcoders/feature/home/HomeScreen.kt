@@ -45,6 +45,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.architectcoders.domain.wizard.entities.WizardModel
 import com.example.architectcoders.feature.common.ChangeStatusBarColor
 import com.example.architectcoders.feature.common.LoadImage
@@ -56,7 +57,7 @@ import com.example.architectcoders.feature.common.theme.BackgroundBars
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel,
+    viewModel: HomeViewModel = hiltViewModel(),
     onWizardClicked: (WizardModel) -> Unit
 ) {
     val context = LocalContext.current

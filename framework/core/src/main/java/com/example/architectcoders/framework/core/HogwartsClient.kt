@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.create
 
-object HogwartsClient {
+internal object HogwartsClient {
     private val contentType = "application/json".toMediaType()
 
     val instance = Retrofit.Builder()

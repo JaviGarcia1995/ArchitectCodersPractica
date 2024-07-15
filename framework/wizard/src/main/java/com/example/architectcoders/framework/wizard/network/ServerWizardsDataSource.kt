@@ -3,8 +3,9 @@ package com.example.architectcoders.framework.wizard.network
 import com.example.architectcoders.domain.wizard.data.RemoteWizardsDataSource
 import com.example.architectcoders.domain.wizard.entities.WandModel
 import com.example.architectcoders.domain.wizard.entities.WizardModel
+import javax.inject.Inject
 
-class ServerWizardsDataSource(private val hogwartsService: HogwartsService):
+class ServerWizardsDataSource @Inject constructor(private val hogwartsService: HogwartsService):
     RemoteWizardsDataSource {
     override suspend fun fetchWizardsSortedByHouse(house: String): List<WizardModel> =
         hogwartsService

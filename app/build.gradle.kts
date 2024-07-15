@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.ksp)
     id("architectcoders.android.application")
     id("architectcoders.android.application.compose")
+    id("architectcoders.di.library.compose")
 }
 
 android {
@@ -53,7 +54,4 @@ dependencies {
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-    // Room implementation needed until we use Dagger Hilt
-    implementation(libs.androidx.room.ktx)
 }

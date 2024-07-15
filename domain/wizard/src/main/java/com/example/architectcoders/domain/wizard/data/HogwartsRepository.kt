@@ -3,9 +3,10 @@ package com.example.architectcoders.domain.wizard.data
 import com.example.architectcoders.domain.wizard.entities.WizardModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
+import javax.inject.Inject
 
 
-class HogwartsRepository(
+class HogwartsRepository @Inject constructor(
     private val remoteWizardsDataSource: RemoteWizardsDataSource,
     private val localWizardsDataSource: LocalWizardsDataSource
 ){

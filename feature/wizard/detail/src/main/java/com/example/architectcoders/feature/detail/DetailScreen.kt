@@ -35,6 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.architectcoders.detail.R
 import com.example.architectcoders.domain.wizard.entities.WizardModel
 import com.example.architectcoders.feature.common.ChangeStatusBarColor
@@ -49,7 +50,7 @@ import com.example.architectcoders.feature.common.theme.SelectedBarItem
 
 @Composable
 fun DetailScreen(
-    vm: DetailViewModel,
+    vm: DetailViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
     val state by vm.state.collectAsState()

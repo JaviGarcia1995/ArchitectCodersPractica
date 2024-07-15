@@ -7,6 +7,7 @@ import com.example.architectcoders.domain.wizard.usecases.FetchFavoriteWizardsUs
 import com.example.architectcoders.domain.wizard.usecases.FetchWizardsByHouseUseCase
 import com.example.architectcoders.feature.common.capitalize
 import com.example.architectcoders.feature.common.interfaces.Result
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,10 +16,12 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
 private const val DEFAULT_HOUSE = "gryffindor"
 
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val fetchWizardsByHouseUseCase: FetchWizardsByHouseUseCase,
     private val fetchFavoriteWizardsUseCase: FetchFavoriteWizardsUseCase
 ): ViewModel() {
