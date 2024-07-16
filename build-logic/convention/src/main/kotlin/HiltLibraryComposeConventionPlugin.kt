@@ -3,11 +3,11 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
-class DiLibraryComposeConventionPlugin: Plugin<Project> {
+class HiltLibraryComposeConventionPlugin: Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply("architectcoders.di.library")
+                apply("architectcoders.hilt.library")
                 apply("dagger.hilt.android.plugin")
             }
             dependencies {

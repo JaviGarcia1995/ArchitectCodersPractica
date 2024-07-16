@@ -41,13 +41,13 @@ gradlePlugin {
             id = "architectcoders.android.room"
             implementationClass = "AndroidRoomConventionPlugin"
         }
-        register("diLibrary"){
-            id = "architectcoders.di.library"
-            implementationClass = "DiLibraryConventionPlugin"
+        register("hiltLibrary"){
+            id = "architectcoders.hilt.library"
+            implementationClass = "HiltLibraryConventionPlugin"
         }
-        register("diLibraryCompose"){
-            id = "architectcoders.di.library.compose"
-            implementationClass = "DiLibraryComposeConventionPlugin"
+        register("hiltLibraryCompose"){
+            id = "architectcoders.hilt.library.compose"
+            implementationClass = "HiltLibraryComposeConventionPlugin"
         }
     }
 }

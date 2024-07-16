@@ -1,6 +1,6 @@
 plugins {
     id("architectcoders.jvm.library")
-    id("architectcoders.di.library")
+    id("architectcoders.hilt.library")
 }
 
 dependencies {
