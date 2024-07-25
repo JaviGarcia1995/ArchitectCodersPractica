@@ -21,51 +21,46 @@ import javax.inject.Inject
 private const val DEFAULT_HOUSE = "gryffindor"
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+open class HomeViewModel @Inject constructor(
     private val fetchWizardsByHouseUseCase: FetchWizardsByHouseUseCase,
     private val fetchFavoriteWizardsUseCase: FetchFavoriteWizardsUseCase
-): ViewModel() {
+): ViewModel(), IHomeViewModel {
 
     private val _showedWelcomeToast = MutableStateFlow(false)
-    val showedWelcomeToast: StateFlow<Boolean> = _showedWelcomeToast
+    override val showedWelcomeToast: StateFlow<Boolean> = _showedWelcomeToast
 
     private val _selectedHouse = MutableStateFlow(DEFAULT_HOUSE)
 
-    val state: StateFlow<Result<UiState>>
-    val favoriteWizards: StateFlow<Result<List<WizardModel>>>
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override val state: StateFlow<Result<UiState>> = _selectedHouse
+        .flatMapLatest { house ->
+            fetchWizardsByHouseUseCase(house.capitalize())
+                .map { wizards ->
+                    UiState(wizards = wizards, selectedHouse = house)
+                }
+                .map<UiState, Result<UiState>> { Result.Success(it) }
+                .catch { e -> emit(Result.Error(e)) }
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = Result.Success(UiState())
+        )
 
-    init {
-        @OptIn(ExperimentalCoroutinesApi::class)
-        state = _selectedHouse
-            .flatMapLatest { house ->
-                fetchWizardsByHouseUseCase(house.capitalize())
-                    .map { wizards ->
-                        UiState(wizards = wizards, selectedHouse = house)
-                    }
-                    .map<UiState, Result<UiState>> { Result.Success(it) }
-                    .catch { e -> emit(Result.Error(e)) }
-            }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000),
-                initialValue = Result.Success(UiState())
-            )
+    override val favoriteWizards: StateFlow<Result<List<WizardModel>>> = fetchFavoriteWizardsUseCase()
+        .map<List<WizardModel>, Result<List<WizardModel>>> { Result.Success(it) }
+        .catch { e -> emit(Result.Error(e)) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = Result.Success(emptyList())
+        )
 
-        favoriteWizards = fetchFavoriteWizardsUseCase()
-            .map<List<WizardModel>, Result<List<WizardModel>>> { Result.Success(it) }
-            .catch { e -> emit(Result.Error(e)) }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000),
-                initialValue = Result.Success(emptyList())
-            )
-    }
-
-    fun loadWizardsByHouse(house: String){
+    override fun loadWizardsByHouse(house: String){
         _selectedHouse.value = house
     }
 
-    fun setShowedWelcomeToast() {
+    override fun setShowedWelcomeToast() {
         _showedWelcomeToast.value = true
     }
 

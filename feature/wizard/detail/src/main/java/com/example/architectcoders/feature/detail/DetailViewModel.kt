@@ -20,9 +20,9 @@ class DetailViewModel @Inject constructor(
     @WizardId wizardId: String,
     private val findWizardByIdUseCase: FindWizardByIdUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
-): ViewModel() {
+): ViewModel(), IDetailViewModel {
 
-    val state: StateFlow<Result<UiState>>
+    override val state: StateFlow<Result<UiState>>
 
     init {
         state = findWizardByIdUseCase(wizardId)
@@ -35,7 +35,7 @@ class DetailViewModel @Inject constructor(
             )
     }
 
-    fun toggleFavourite() {
+    override fun toggleFavourite() {
         val currentState = state.value
         if (currentState is Result.Success) {
             currentState.data.wizard?.let { wizard ->

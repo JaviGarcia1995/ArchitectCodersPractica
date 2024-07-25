@@ -47,7 +47,7 @@ private val navItems = listOf(
 )
 
 @Composable
-fun BottomNavBar(viewModel: HomeViewModel, showSheetState: MutableState<Boolean>) {
+fun BottomNavBar(viewModel: IHomeViewModel, showSheetState: MutableState<Boolean>) {
     val state by viewModel.state.collectAsState()
     val selectedHouse = when (val result = state) {
         is Result.Success -> {

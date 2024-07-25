@@ -50,7 +50,7 @@ import com.example.architectcoders.feature.common.theme.SelectedBarItem
 
 @Composable
 fun DetailScreen(
-    vm: DetailViewModel = hiltViewModel(),
+    vm: IDetailViewModel = hiltViewModel<DetailViewModel>(),
     onBack: () -> Unit
 ) {
     val state by vm.state.collectAsState()

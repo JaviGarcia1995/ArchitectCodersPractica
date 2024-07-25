@@ -57,7 +57,7 @@ import com.example.architectcoders.feature.common.theme.BackgroundBars
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel(),
+    viewModel: IHomeViewModel = hiltViewModel<HomeViewModel>(),
     onWizardClicked: (WizardModel) -> Unit
 ) {
     val context = LocalContext.current
