@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -25,4 +26,9 @@ object TestAppModule {
         ).build()
         return db
     }
+
+    @Provides
+    @Singleton
+    @Named("apiUrl")
+    fun provideApiUrl(): String = "http://localhost:8080"
 }

@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -19,7 +20,7 @@ internal object FrameworkCoreModule {
 
     @Provides
     @Singleton
-    fun provideWizardsService() = HogwartsClient.instance
+    fun provideWizardsService(@Named("apiUrl") apiUrl: String) = HogwartsClient(apiUrl).instance
 }
 
 @Module
@@ -32,4 +33,9 @@ object FrameworkCoreExtrasModule {
         HogwartsDatabase::class.java,
         "wizards.db"
     ).build()
+
+    @Provides
+    @Singleton
+    @Named("apiUrl")
+    fun provideApiUrl(): String = "https://hp-api.onrender.com/api/"
 }

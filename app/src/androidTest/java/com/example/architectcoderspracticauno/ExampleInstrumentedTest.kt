@@ -2,15 +2,19 @@ package com.example.architectcoderspracticauno
 
 import androidx.test.rule.GrantPermissionRule
 import com.example.architectcoders.domain.wizard.data.HogwartsRepository
+import com.example.architectcoders.domain.wizard.data.RemoteWizardsDataSource
 import com.example.architectcoders.domain.wizard.entities.WandModel
 import com.example.architectcoders.framework.wizard.database.WandEntity
 import com.example.architectcoders.framework.wizard.database.WizardEntity
 import com.example.architectcoders.framework.wizard.database.WizardsDao
+import com.example.architectcoderspracticauno.data.server.MockWebServerRule
+import com.example.architectcoderspracticauno.data.server.fromJson
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
+import okhttp3.mockwebserver.MockResponse
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -19,17 +23,27 @@ import javax.inject.Inject
 
 @HiltAndroidTest
 class ExampleInstrumentedTest {
-    @get:Rule
+    @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
+    val mockWebServerRule = MockWebServerRule()
 
     @Inject
     lateinit var hogwartsRepository: HogwartsRepository
+
+    @Inject
+    lateinit var remoteDataSource: RemoteWizardsDataSource
 
     @Inject
     lateinit var wizardsDao: WizardsDao
 
     @Before
     fun setup() {
+        mockWebServerRule.server.enqueue(
+            MockResponse().fromJson("wizards_gryffindor.json")
+        )
+
         hiltRule.inject()
     }
 
@@ -46,6 +60,13 @@ class ExampleInstrumentedTest {
         wizardsDao.saveWizards(buildDatabaseWizards("1", "2", "3", "4"))
         val wizards = wizardsDao.getWizardsByHouse("Gryffindor").first()
         assertEquals(4, wizards.size)
+    }
+
+    @Test
+    fun check_mock_server_is_working() = runTest {
+        val wizards = remoteDataSource.fetchWizardsSortedByHouse("Gryffindor")
+
+        assertEquals("Harry Potter", wizards[0].name)
     }
 }
 

@@ -7,11 +7,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.create
 
-internal object HogwartsClient {
+internal class HogwartsClient(
+    private val apiUrl: String,
+) {
     private val contentType = "application/json".toMediaType()
 
     val instance = Retrofit.Builder()
-        .baseUrl("https://hp-api.onrender.com/api/")
+        .baseUrl(apiUrl)
         .addConverterFactory(Json.asConverterFactory(contentType))
         .build()
         .create<HogwartsService>()
