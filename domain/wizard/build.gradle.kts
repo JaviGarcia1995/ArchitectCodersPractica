@@ -5,5 +5,4 @@ plugins {
 
 dependencies {
     testImplementation(project(":test:unit"))
-    testImplementation(libs.junit.junit)
 }

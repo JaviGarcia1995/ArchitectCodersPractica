@@ -15,17 +15,21 @@ import javax.inject.Singleton
 internal object FrameworkCoreModule {
     @Provides
     @Singleton
-    fun provideDatabase(app: Application) = Room.databaseBuilder(
-        app,
-        HogwartsDatabase::class.java,
-        "wizards.db"
-    ).build()
-
-    @Provides
-    @Singleton
     fun provideWizardsDao(db: HogwartsDatabase) = db.wizardDao()
 
     @Provides
     @Singleton
     fun provideWizardsService() = HogwartsClient.instance
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object FrameworkCoreExtrasModule {
+    @Provides
+    @Singleton
+    fun provideDatabase(app: Application) = Room.databaseBuilder(
+        app,
+        HogwartsDatabase::class.java,
+        "wizards.db"
+    ).build()
 }

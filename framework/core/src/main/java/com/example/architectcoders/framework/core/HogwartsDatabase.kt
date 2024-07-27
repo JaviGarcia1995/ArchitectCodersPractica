@@ -11,6 +11,6 @@ import com.example.architectcoders.framework.wizard.database.WizardsDao
     version = 1,
     exportSchema = false
 )
-internal abstract class HogwartsDatabase: RoomDatabase() {
+abstract class HogwartsDatabase: RoomDatabase() {
     abstract fun wizardDao(): WizardsDao
 }
