@@ -1,9 +1,7 @@
 package com.example.architectcoderspracticauno
 
-import androidx.test.rule.GrantPermissionRule
 import com.example.architectcoders.domain.wizard.data.HogwartsRepository
 import com.example.architectcoders.domain.wizard.data.RemoteWizardsDataSource
-import com.example.architectcoders.domain.wizard.entities.WandModel
 import com.example.architectcoders.framework.wizard.database.WandEntity
 import com.example.architectcoders.framework.wizard.database.WizardEntity
 import com.example.architectcoders.framework.wizard.database.WizardsDao
@@ -15,12 +13,14 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
+// This class tests the configuration of Hilt, Room and MockWebServer for tests
 @HiltAndroidTest
 class ExampleInstrumentedTest {
     @get:Rule(order = 0)
