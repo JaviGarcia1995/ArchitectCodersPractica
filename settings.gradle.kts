@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -20,5 +21,15 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "ArchitectCoders PracticaUno"
+
 include(":app")
- 
+
+include(":domain:wizard")
+
+include(":framework:core")
+include(":framework:wizard")
+
+include(":feature:common")
+include(":feature:wizard:home")
+include(":feature:wizard:detail")
+include(":test:unit")
