@@ -1,6 +1,21 @@
 # Harry Potter API Clean Architecture Project
 This project showcases a modular Android application that follows Clean Architecture principles using Kotlin and Jetpack Compose. The app fetches data from the Harry Potter API (https://hp-api.onrender.com/) and displays the wizards in a list, offering detailed views of each character. The architecture is designed for scalability, maintainability, and ease of testing by following a clear separation of concerns across different modules and layers.
 
+<div align="center">
+
+![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
+![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
+![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white)
+![Room](https://img.shields.io/badge/Room-4285F4?style=for-the-badge&logo=android&logoColor=white)
+![Hilt](https://img.shields.io/badge/Hilt-2196F3?style=for-the-badge&logo=android&logoColor=white)
+![Testing](https://img.shields.io/badge/Tests-Included-4EAA25?style=for-the-badge)
+
+</div>
+</br>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/JaviGarcia1995/ArchitectCodersPractica/refs/heads/master/HarryPotterApiVideo.gif" width="250"/>
+</div>
+
 ## Key Technologies
 - Modularized Clean Architecture: Organizes the code into distinct layers and independent modules, enhancing scalability, testability, and maintainability.
 - Jetpack Compose: A declarative UI framework that simplifies the creation of native Android user interfaces.
